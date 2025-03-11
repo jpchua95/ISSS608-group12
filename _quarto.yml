@@ -9,8 +9,6 @@ website:
         text: Home
       - href: about.qmd
         text: About Me
-      - href: proposal.qmd
-        text: Proposal
 
 format:
   html:
