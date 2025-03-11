@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jia Peng Chua | Zanelle Lee Wenfang">
 
-<title>ISSS608 Group 12</title>
+<title>Project Proposal – isss608-group12</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">ISSS608 Group 12</span>
+    <span class="navbar-title">isss608-group12</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -89,11 +90,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./proposal.html"> 
+    <a class="nav-link active" href="./proposal.html" aria-current="page"> 
 <span class="menu-text">Project Proposal</span></a>
   </li>  
 </ul>
@@ -112,7 +113,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-team" id="toc-the-team" class="nav-link active" data-scroll-target="#the-team">The Team</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a></li>
+  <li><a href="#problems-issues-the-project-will-address" id="toc-problems-issues-the-project-will-address" class="nav-link" data-scroll-target="#problems-issues-the-project-will-address">Problems / Issues the project will address</a></li>
+  <li><a href="#relevant-related-work" id="toc-relevant-related-work" class="nav-link" data-scroll-target="#relevant-related-work">Relevant Related Work</a></li>
+  <li><a href="#proposed-approach" id="toc-proposed-approach" class="nav-link" data-scroll-target="#proposed-approach">Proposed Approach</a></li>
+  <li><a href="#prototypes-story-boards" id="toc-prototypes-story-boards" class="nav-link" data-scroll-target="#prototypes-story-boards">Prototypes / Story Boards</a></li>
   </ul>
 </nav>
     </div>
@@ -121,15 +127,27 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ISSS608 Group 12</h1>
+<h1 class="title">Project Proposal</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jia Peng Chua | Zanelle Lee Wenfang </p>
+          </div>
+  </div>
     
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">March 12, 2025</p>
+    </div>
+  </div>
     
   </div>
   
@@ -138,15 +156,59 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div style="text-align: center">
-<p><strong>Hello! We are Group 12, nice to meet you 😊</strong></p>
-</div>
-<section id="the-team" class="level1">
-<h1>The Team</h1>
-<p><a href="https://www.linkedin.com/in/zanellelee/"><strong>Zanelle Lee Wenfang</strong></a></p>
-<p><img src="zanelle.jpeg" class="img-fluid"></p>
-<p><a href="https://www.linkedin.com/in/chuajp/"><strong>Chua Jia Peng</strong></a></p>
-<p><img src="images/Corporate headshot 2022.jpg" class="img-fluid"></p>
+<section id="motivation" class="level1">
+<h1>Motivation</h1>
+<p>Dengue fever has been a pressing public health concern in tropical regions, including Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyse long-term trends and seasonal outbreaks.</p>
+<p>Our project aims to:</p>
+<ul>
+<li><p>Develop interactive visualisations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan</p></li>
+<li><p>Perform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models</p></li>
+<li><p>Conduct correlation analysis of dengue cases with external factors</p></li>
+</ul>
+</section>
+<section id="data-source" class="level1">
+<h1>Data Source</h1>
+<p>For this project, the <a href="https://www.kaggle.com/datasets/taweilo/taiwan-dengue-daily-confirmed-cases-1998-2024">Taiwan Dengue Cases 1998-2024 dataset</a> will be used.</p>
+<p>The dataset is retrieved from <a href="https://www.kaggle.com">Kaggle</a>.</p>
+</section>
+<section id="problems-issues-the-project-will-address" class="level1">
+<h1>Problems / Issues the project will address</h1>
+<p>Dengue cases often fluctuate due to seasonal changes. Our project aims to identify key drivers of dengue outbreaks and raise public awareness.</p>
+<p>Additionally, by leveraging time series forecasting models, we can determine the most suitable model for predicting dengue outbreaks. This enables stakeholders to take proactive rather than reactive measures in response to potential outbreaks.</p>
+</section>
+<section id="relevant-related-work" class="level1">
+<h1>Relevant Related Work</h1>
+<p>On Kaggle, a basic EDA, correlation analysis and predictive modelling have been shared using this dataset:</p>
+<ul>
+<li>Exploring Dengue Fever Cases in Taiwan: A Data-Driven Approach</li>
+</ul>
+<p>We also identified 2 research papers related to the study of dengue cases that could potentially be useful for our project:</p>
+<ul>
+<li><p><a href="https://link.springer.com/article/10.1007/s00484-018-01659-w">Prediction of annual dengue incidence by hydro-climatic extremes for southern Taiwan</a></p></li>
+<li><p><a href="https://www.sciencedirect.com/science/article/pii/S1995764517301244">Temporal patterns of dengue epidemics: The case of recent outbreaks in Kaohsiung</a></p></li>
+</ul>
+</section>
+<section id="proposed-approach" class="level1">
+<h1>Proposed Approach</h1>
+<ol type="1">
+<li><p>Load the relevant R packages</p></li>
+<li><p>Additional datasets, such as rainfall and temperature of Taiwan, might be required</p></li>
+<li><p>Data cleaning and creating additional relevant feature</p></li>
+<li><p>EDA</p></li>
+<li><p>Correlation analysis</p></li>
+<li><p>Time series analysis</p></li>
+<li><p>Time series forecasting</p></li>
+<li><p>Build Shiny dashboard for interactive visualization</p></li>
+</ol>
+<p>The group will be working on tasks 1-4 together and will split up to work on tasks 5-8.</p>
+</section>
+<section id="prototypes-story-boards" class="level1">
+<h1>Prototypes / Story Boards</h1>
+<p><img src="Proposal/Slide1.JPG" class="img-fluid"></p>
+<p><img src="Proposal/Slide2.JPG" class="img-fluid"></p>
+<p><img src="Proposal/Slide3.JPG" class="img-fluid"></p>
+<p><img src="Proposal/Slide4.JPG" class="img-fluid"></p>
+<p><img src="Proposal/Slide5.JPG" class="img-fluid"></p>
 
 
 </section>
