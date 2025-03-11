@@ -7,13 +7,15 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: about.qmd
+        text: About Me
       - href: proposal.qmd
-        text: Project Proposal
+        text: Proposal
 
 format:
   html:
     theme:
-      - cosmo
+      - minty
       - brand
     css: styles.css
     toc: true
