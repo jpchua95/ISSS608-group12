@@ -11,11 +11,11 @@ execute:
 
 # Motivation
 
-Dengue fever has been a pressing public health concern in tropical regions, including Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyse long-term trends and seasonal outbreaks.
+Dengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 ([World Health Organisation, 2023](https://www.who.int/emergencies/disease-outbreak-news/item/2023-DON498)). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.
 
 Our project aims to:
 
--   Develop interactive visualisations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan
+-   Develop interactive visualizations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan
 
 -   Perform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models
 
@@ -35,9 +35,9 @@ Additionally, by leveraging time series forecasting models, we can determine the
 
 # Relevant Related Work
 
-On Kaggle, a basic EDA, correlation analysis and predictive modelling have been shared using this dataset:
+On Kaggle, a basic EDA, correlation analysis and predictive modelling have been performed using this dataset:
 
--   Exploring Dengue Fever Cases in Taiwan: A Data-Driven Approach
+-   [Exploring Dengue Fever Cases in Taiwan: A Data-Driven Approach](https://www.kaggle.com/code/devraai/dengue-fever-analysis-and-prediction-in-taiwan)
 
 We also identified 2 research papers related to the study of dengue cases that could potentially be useful for our project:
 
@@ -51,7 +51,7 @@ We also identified 2 research papers related to the study of dengue cases that c
 
 2.  Additional datasets, such as rainfall and temperature of Taiwan, might be required
 
-3.  Data cleaning and creating additional relevant feature
+3.  Data cleaning and creating additional relevant features
 
 4.  EDA
 
