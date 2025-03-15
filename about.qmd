@@ -4,6 +4,8 @@ title: "About"
 
 About this site
 
+My team comprise of JP and Me.
+
 ```{r}
 1 + 1
 ```
