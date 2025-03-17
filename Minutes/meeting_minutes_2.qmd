@@ -1,0 +1,55 @@
+---
+title: "Minutes of Meeting 2"
+author: "Jia Peng Chua | Zanelle Lee Wenfang"
+date-modified: "last-modified"
+execute:
+    echo: true
+    eval: true
+    warning: false
+    freeze: true
+---
+
+## Date
+
+11 MARCH 2025
+
+## Time
+
+4.15pm – 5.15pm
+
+## Venue
+
+SMU SCIS 2 Seminar Room 5-2
+
+## Meeting Attendance
+
+-   Chua Jia Peng
+
+-   Zanelle Lee Wenfang
+
+## Issues/Discussions
+
+### Confirmation on project dataset
+
+1.  The team shared their thoughts about the possible data for the project
+
+### [***Taiwan Dengue Cases 1998 – 2024***](https://www.kaggle.com/datasets/taweilo/taiwan-dengue-daily-confirmed-cases-1998-2024)
+
+2.  Possible EDA can be conducted to view historical trend, correlation between variables. Time series analysis and forecasting can be performed on the dataset as well.
+3.  Zanelle identified potential columns that can be excluded due to too many “None” values which will not be meaningful for the analysis.
+4.  Additional dataset, such as precipitation and temperature by regions in Taiwan, may be helpful in the analysis as they could be correlated with dengue. The team will source for these information.
+
+### [***Workout & Fitness Tracker Dataset***](https://www.kaggle.com/datasets/adilshamim8/workout-and-fitness-tracker-data)
+
+5.  There is sufficient data for analysis and for building a regression model to recommend workout plans, and assess the impact of workout, sleep and nutrition.
+6.  However, the dataset appears synthetic and inaccurate. For example, the recorded water intake for all users is 1.9L. User 9 reportedly ran 13.24 km in 25 minutes, which is faster than the estimated speed of the fastest runner which seems unrealistic, and yet this is classified as a low-intensity workout.
+
+### [***Quality of Life Index by Country***](https://www.kaggle.com/datasets/marcelobatalhah/quality-of-life-index-by-country)
+
+7.  A possible topic to explore with this dataset is suggesting destinations for relocation. However, the sample size available is very small to work with to potentially provide useful insights, and there is no further breakdown to track the progression of quality of life over time.
+
+### **Conclusion**
+
+8.  The team has decided to proceed with the *Taiwan Dengue Cases 1998 – 2024* dataset.
+9.  The team will perform data cleaning and some EDA individually. The team will also look for dataset on Taiwan’s precipitation and temperature by regions.
+10. The team will reconvene after 9^th^ March.

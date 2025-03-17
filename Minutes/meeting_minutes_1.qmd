@@ -1,0 +1,52 @@
+---
+title: "Minutes of Meeting 1"
+author: "Jia Peng Chua | Zanelle Lee Wenfang"
+date-modified: "last-modified"
+execute:
+    echo: true
+    eval: true
+    warning: false
+    freeze: true
+---
+
+## Date
+
+22 FEBRUARY 2025
+
+## Time
+
+3.45pm – 4.00pm
+
+## Venue
+
+SMU SCIS 2 Seminar Room 5-2
+
+## Meeting Attendance
+
+-   Chua Jia Peng
+
+-   Zanelle Lee Wenfang
+
+## Issues/Discussions
+
+### Discussion on project dataset
+
+1.  The team shared their thoughts about the possible data sources that Prof Kam shared on the [project brief](https://isss608-ay2024-25jan.netlify.app/vaproject).
+
+### ***Discovering State of Learning with PISA 2022***
+
+2.  The team shared that this is an interesting topic and can explore further with actual datasets.
+
+### ***Be Weatherwise of Otherwise***
+
+3.  Jia Peng shared that the sample project shared by Prof Kam is of a similar topic, and it might be hard to think of other approaches for this project.
+4.  Zanelle mentioned that we could find historical weather data from other countries instead.
+
+### ***Discovering State of Economic with open Government Data and Nowcasting methods***
+
+5.  The team shared that this topic is unfamiliar to all and may require additional research before proceeding with the project proposal. This is the least preferred topic. 
+
+### ***Other sources***
+
+6.  The team may look for possible datasets from [Kaggle](https://kaggle.com/) and [Singapore’s open data portal](https://data.gov.sg/).
+7.  The team will each shortlist 3 possible datasets and reconvene on 1 March at 4pm, to finalise 1 dataset for the project proposal.

@@ -1,0 +1,59 @@
+---
+title: "Minutes of Meeting 3"
+author: "Jia Peng Chua | Zanelle Lee Wenfang"
+date-modified: "last-modified"
+execute:
+    echo: true
+    eval: true
+    warning: false
+    freeze: true
+---
+
+## Date
+
+1 MARCH 2025
+
+## Time
+
+9.30pm – 11.15pm
+
+## Venue
+
+Virtual (Teams)
+
+## Meeting Attendance
+
+-   Chua Jia Peng
+
+-   Zanelle Lee Wenfang
+
+## Issues/Discussions
+
+1.  The team discussed the next steps to be done following Prof Kam’s feedback on the proposal.
+
+### Data Source
+
+2.  Prof Kam suggested for the original dataset to be downloaded, instead of using the Kaggle’s version. Both team members tried to download the datasets given from the source link but only managed to download the [Dengue_Daily.csv](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) file. An email was set to Prof Kam to request for his copy of the data sets instead.
+
+### Review of geospatial knowledge needed
+
+3.  Prof Kam mentioned that more knowledge (not covered in class) would be required to complete the analysis of the chosen dataset. The notes from Geospatial Analysis were reviewed by both team members together. It was accepted that the additional information might be too much to be mastered within the remaining two weeks.
+4.  Zanelle suggested that perhaps more work could be done with the data that did not involve the geospatial segment but realised that there might be limited columns to work with (age, gender, number of dengue cases).
+5.  Jia Peng highlighted that there would also be significant effort required in the data wrangling segment before being able to be used for analysis. She would also try to get a head start on the preparation and cleaning of the data. It was agreed that a consultation with Prof Kam was required, and was set to be on 19 March, 8.30am-9.30am.
+
+### Actions to be done on the data
+
+6.  The team members reviewed the proposal plan together. While pending Prof Kam’s advice for the feasibility of the project, Jia Peng suggested the team could split the analysis segment. She volunteered to attempt the correlation analysis, and for Zanelle to attempt the time series segment. Both segments could be completed without necessarily involving the geospatial segment of the dataset.
+
+### Conclusion
+
+7.  The team has decided to perform data cleaning and some EDA individually before meeting with Prof Kam. Manual visual look through of the dataset will also allow the team to decide on the dataset to be filtered, if relevant.
+8.  The team will reconvene on 19^th^ March with Prof Kam.
+
+### Items to Discuss for Consultation
+
+1.  Filtering away columns that have many empty values?
+
+2.  Is it better to keep only the most recent 5-10 years data?
+
+3.  Feasibility of using this dataset due to lack of geospatial analytics knowledge?

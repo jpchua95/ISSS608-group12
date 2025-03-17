@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "ISSS608 Group 12",
     "section": "",
-    "text": "Hello! We are Group 12, nice to meet you 😊\n\n\nThe Team\nZanelle Lee Wenfang\n\nChua Jia Peng"
+    "text": "Hello! We are Group 12, nice to meet you 😊\n\n\nTaiwan Dengue Cases Analysis\nDengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 (World Health Organisation, 2023). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.\nOur project aims to:\n\nDevelop interactive visualizations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan\nPerform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models\nConduct correlation analysis of dengue cases with external factors\n\n\n\nMeet The Team\nZanelle Lee Wenfang\n\nChua Jia Peng"
   },
   {
     "objectID": "about.html",
@@ -19,5 +19,138 @@
     "title": "Project Proposal",
     "section": "",
     "text": "Motivation\nDengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 (World Health Organisation, 2023). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.\nOur project aims to:\n\nDevelop interactive visualizations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan\nPerform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models\nConduct correlation analysis of dengue cases with external factors\n\n\n\nData Source\nFor this project, the Taiwan Dengue Cases 1998-2024 dataset will be used.\nThe dataset is retrieved from Kaggle.\n\n\nProblems / Issues the project will address\nDengue cases often fluctuate due to seasonal changes. Our project aims to identify key drivers of dengue outbreaks and raise public awareness.\nAdditionally, by leveraging time series forecasting models, we can determine the most suitable model for predicting dengue outbreaks. This enables stakeholders to take proactive rather than reactive measures in response to potential outbreaks.\n\n\nRelevant Related Work\nOn Kaggle, a basic EDA, correlation analysis and predictive modelling have been performed using this dataset:\n\nExploring Dengue Fever Cases in Taiwan: A Data-Driven Approach\n\nWe also identified 2 research papers related to the study of dengue cases that could potentially be useful for our project:\n\nPrediction of annual dengue incidence by hydro-climatic extremes for southern Taiwan\nTemporal patterns of dengue epidemics: The case of recent outbreaks in Kaohsiung\n\n\n\nProposed Approach\n\nLoad the relevant R packages\nAdditional datasets, such as rainfall and temperature of Taiwan, might be required\nData cleaning and creating additional relevant features\nEDA\nCorrelation analysis\nTime series analysis\nTime series forecasting\nBuild Shiny dashboard for interactive visualization\n\nThe group will be working on tasks 1-4 together and will split up to work on tasks 5-8.\n\n\nPrototypes / Story Boards"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_3.html",
+    "href": "Minutes/meeting_minutes_3.html",
+    "title": "Minutes of Meeting 3",
+    "section": "",
+    "text": "1 MARCH 2025"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_3.html#date",
+    "href": "Minutes/meeting_minutes_3.html#date",
+    "title": "Minutes of Meeting 3",
+    "section": "",
+    "text": "1 MARCH 2025"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_3.html#time",
+    "href": "Minutes/meeting_minutes_3.html#time",
+    "title": "Minutes of Meeting 3",
+    "section": "Time",
+    "text": "Time\n9.30pm – 11.15pm"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_3.html#location",
+    "href": "Minutes/meeting_minutes_3.html#location",
+    "title": "Minutes of Meeting 3",
+    "section": "Location",
+    "text": "Location\nVirtual (Teams)"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_3.html#meeting-attendance",
+    "href": "Minutes/meeting_minutes_3.html#meeting-attendance",
+    "title": "Minutes of Meeting 3",
+    "section": "Meeting Attendance",
+    "text": "Meeting Attendance\n\nChua Jia Peng\nZanelle Lee Wenfang"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_3.html#issuesdiscussions",
+    "href": "Minutes/meeting_minutes_3.html#issuesdiscussions",
+    "title": "Minutes of Meeting 3",
+    "section": "Issues/Discussions",
+    "text": "Issues/Discussions\n\nThe team discussed the next steps to be done following Prof Kam’s feedback on the proposal.\n\n\nData Source\n\nProf Kam suggested for the original dataset to be downloaded, instead of using the Kaggle’s version. Both team members tried to download the datasets given from the source link but only managed to download the Dengue_Daily.csv file. An email was set to Prof Kam to request for his copy of the data sets instead.\n\n\n\nReview of geospatial knowledge needed\n\nProf Kam mentioned that more knowledge (not covered in class) would be required to complete the analysis of the chosen dataset. The notes from Geospatial Analysis were reviewed by both team members together. It was accepted that the additional information might be too much to be mastered within the remaining two weeks.\nZanelle suggested that perhaps more work could be done with the data that did not involve the geospatial segment but realised that there might be limited columns to work with (age, gender, number of dengue cases).\nJia Peng highlighted that there would also be significant effort required in the data wrangling segment before being able to be used for analysis. She would also try to get a head start on the preparation and cleaning of the data. It was agreed that a consultation with Prof Kam was required, and was set to be on 19 March, 8.30am-9.30am.\n\n\n\nActions to be done on the data\n\nThe team members reviewed the proposal plan together. While pending Prof Kam’s advice for the feasibility of the project, Jia Peng suggested the team could split the analysis segment. She volunteered to attempt the correlation analysis, and for Zanelle to attempt the time series segment. Both segments could be completed without necessarily involving the geospatial segment of the dataset.\n\n\n\nConclusion\n\nThe team has decided to perform data cleaning and some EDA individually before meeting with Prof Kam. Manual visual look through of the dataset will also allow the team to decide on the dataset to be filtered, if relevant.\nThe team will reconvene on 19th March with Prof Kam.\n\n\n\nItems to Discuss for Consultation\n\nFiltering away columns that have many empty values?\nIs it better to keep only the most recent 5-10 years data?\nFeasibility of using this dataset due to lack of geospatial analytics knowledge?"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_1.html",
+    "href": "Minutes/meeting_minutes_1.html",
+    "title": "Minutes of Meeting 1",
+    "section": "",
+    "text": "22 FEBRUARY 2025"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_1.html#date",
+    "href": "Minutes/meeting_minutes_1.html#date",
+    "title": "Minutes of Meeting 1",
+    "section": "",
+    "text": "22 FEBRUARY 2025"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_1.html#time",
+    "href": "Minutes/meeting_minutes_1.html#time",
+    "title": "Minutes of Meeting 1",
+    "section": "Time",
+    "text": "Time\n3.45pm – 4.00pm"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_1.html#venue",
+    "href": "Minutes/meeting_minutes_1.html#venue",
+    "title": "Minutes of Meeting 1",
+    "section": "Venue",
+    "text": "Venue\nSMU SCIS 2 Seminar Room 5-2"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_1.html#meeting-attendance",
+    "href": "Minutes/meeting_minutes_1.html#meeting-attendance",
+    "title": "Minutes of Meeting 1",
+    "section": "Meeting Attendance",
+    "text": "Meeting Attendance\n\nChua Jia Peng\nZanelle Lee Wenfang"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_1.html#issuesdiscussions",
+    "href": "Minutes/meeting_minutes_1.html#issuesdiscussions",
+    "title": "Minutes of Meeting 1",
+    "section": "Issues/Discussions",
+    "text": "Issues/Discussions\n\nDiscussion on project dataset\n\nThe team shared their thoughts about the possible data sources that Prof Kam shared on the project brief.\n\n\n\nDiscovering State of Learning with PISA 2022\n\nThe team shared that this is an interesting topic and can explore further with actual datasets.\n\n\n\nBe Weatherwise of Otherwise\n\nJia Peng shared that the sample project shared by Prof Kam is of a similar topic, and it might be hard to think of other approaches for this project.\nZanelle mentioned that we could find historical weather data from other countries instead.\n\n\n\nDiscovering State of Economic with open Government Data and Nowcasting methods\n\nThe team shared that this topic is unfamiliar to all and may require additional research before proceeding with the project proposal. This is the least preferred topic. \n\n\n\nOther sources\n\nThe team may look for possible datasets from Kaggle and Singapore’s open data portal.\nThe team will each shortlist 3 possible datasets and reconvene on 1 March at 4pm, to finalise 1 dataset for the project proposal."
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_3.html#venue",
+    "href": "Minutes/meeting_minutes_3.html#venue",
+    "title": "Minutes of Meeting 3",
+    "section": "Venue",
+    "text": "Venue\nVirtual (Teams)"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_2.html",
+    "href": "Minutes/meeting_minutes_2.html",
+    "title": "Minutes of Meeting 2",
+    "section": "",
+    "text": "11 MARCH 2025"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_2.html#date",
+    "href": "Minutes/meeting_minutes_2.html#date",
+    "title": "Minutes of Meeting 2",
+    "section": "",
+    "text": "11 MARCH 2025"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_2.html#time",
+    "href": "Minutes/meeting_minutes_2.html#time",
+    "title": "Minutes of Meeting 2",
+    "section": "Time",
+    "text": "Time\n4.15pm – 5.15pm"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_2.html#venue",
+    "href": "Minutes/meeting_minutes_2.html#venue",
+    "title": "Minutes of Meeting 2",
+    "section": "Venue",
+    "text": "Venue\nSMU SCIS 2 Seminar Room 5-2"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_2.html#meeting-attendance",
+    "href": "Minutes/meeting_minutes_2.html#meeting-attendance",
+    "title": "Minutes of Meeting 2",
+    "section": "Meeting Attendance",
+    "text": "Meeting Attendance\n\nChua Jia Peng\nZanelle Lee Wenfang"
+  },
+  {
+    "objectID": "Minutes/meeting_minutes_2.html#issuesdiscussions",
+    "href": "Minutes/meeting_minutes_2.html#issuesdiscussions",
+    "title": "Minutes of Meeting 2",
+    "section": "Issues/Discussions",
+    "text": "Issues/Discussions\n\nConfirmation on project dataset\n\nThe team shared their thoughts about the possible data for the project\n\n\n\nTaiwan Dengue Cases 1998 – 2024\n\nPossible EDA can be conducted to view historical trend, correlation between variables. Time series analysis and forecasting can be performed on the dataset as well.\nZanelle identified potential columns that can be excluded due to too many “None” values which will not be meaningful for the analysis.\nAdditional dataset, such as precipitation and temperature by regions in Taiwan, may be helpful in the analysis as they could be correlated with dengue. The team will source for these information.\n\n\n\nWorkout & Fitness Tracker Dataset\n\nThere is sufficient data for analysis and for building a regression model to recommend workout plans, and assess the impact of workout, sleep and nutrition.\nHowever, the dataset appears synthetic and inaccurate. For example, the recorded water intake for all users is 1.9L. User 9 reportedly ran 13.24 km in 25 minutes, which is faster than the estimated speed of the fastest runner which seems unrealistic, and yet this is classified as a low-intensity workout.\n\n\n\nQuality of Life Index by Country\n\nA possible topic to explore with this dataset is suggesting destinations for relocation. However, the sample size available is very small to work with to potentially provide useful insights, and there is no further breakdown to track the progression of quality of life over time.\n\n\n\nConclusion\n\nThe team has decided to proceed with the Taiwan Dengue Cases 1998 – 2024 dataset.\nThe team will perform data cleaning and some EDA individually. The team will also look for dataset on Taiwan’s precipitation and temperature by regions.\nThe team will reconvene after 9th March."
   }
 ]
