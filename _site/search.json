@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "ISSS608 Group 12",
+    "title": "Taiwan Dengue Cases Analysis",
     "section": "",
     "text": "Hello! We are Group 12, nice to meet you 😊\n\n\nTaiwan Dengue Cases Analysis\nDengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 (World Health Organisation, 2023). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.\nOur project aims to:\n\nDevelop interactive visualizations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan\nPerform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models\nConduct correlation analysis of dengue cases with external factors\n\n\n\nMeet The Team\nZanelle Lee Wenfang\n\nChua Jia Peng"
   },
