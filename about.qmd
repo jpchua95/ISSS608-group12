@@ -8,4 +8,8 @@ My team comprise of JP and Me.
 
 HI - JP HERE
 
+<<<<<<< HEAD
 HIII PULL PUSH
+=======
+JP is cool
+>>>>>>> ea3f1cf9eafb677b2a418b23cfabc197fd409093
