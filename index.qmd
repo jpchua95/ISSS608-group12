@@ -1,7 +1,3 @@
----
-title: "ISSS608 Group 12"
----
-
 ::: {style="text-align: center"}
 **Hello! We are Group 12, nice to meet you 😊**
 :::
