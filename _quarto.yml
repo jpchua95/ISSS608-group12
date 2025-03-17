@@ -7,8 +7,16 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: proposal.qmd
-        text: Project Proposal
+      - text: Documentations
+        menu:
+        - text: Project Proposal
+          href: proposal.qmd
+        - text: Meeting Minutes 1
+          href: Minutes/meeting_minutes_1.html
+        - text: Meeting Minutes 2
+          href: Minutes/meeting_minutes_2.html
+        - text: Meeting Minutes 3
+          href: Minutes/meeting_minutes_3.html
 
 format:
   html:
