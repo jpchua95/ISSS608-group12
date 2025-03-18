@@ -1,0 +1,187 @@
+---
+title: "Data Preparation"
+author: "Jia Peng Chua | Zanelle Lee Wenfang"
+date-modified: "last-modified"
+execute:
+    echo: true
+    eval: true
+    warning: false
+    freeze: true
+---
+
+# 1 Getting Started
+
+The following R packages will be required:
+
+```{r}
+pacman::p_load(tidyverse,plotly)
+```
+
+# 2 Importing Data
+
+The code chunk below uses `read_csv()` of `readr` to import the `dengue_daily` dataset into R environment.
+
+```{r}
+dengue_daily <- read_csv("data/Dengue_Daily.csv")
+```
+
+```{r}
+summary(dengue_daily)
+```
+
+Translate column names to English
+
+-   發病日: Onset Date
+
+-   個案研判日: Case Classification Date
+
+-   通報日: Reporting Date
+
+-   性別: Gender
+
+-   年齡層: Age Group
+
+-   居住縣市: Residential County/City
+
+-   居住鄉鎮: Residential Town/District
+
+-   居住村里: Residential Village
+
+-   最小統計區: Smallest Statistical Area
+
+-   最小統計區中心點X: X-coord
+
+-   最小統計區中心點Y: Y-coord
+
+-   一級統計區: Primary Statistical Area
+
+-   二級統計區: Secondary Statistical Area
+
+-   感染縣市: Infection County/City
+
+-   感染鄉鎮: Infection Town/District
+
+-   感染村里: Infection Village
+
+-   是否境外移入: Imported Case
+
+-   感染國家: Infection Country
+
+-   確定病例數: Confirmed Cases
+
+-   居住村里代碼: Residential Village Code
+
+-   感染村里代碼: Infection Village Code
+
+-   血清型: Serotype
+
+-   內政部居住縣市代碼: MOI Residential County Code
+
+-   內政部居住鄉鎮代碼: MOI Residential Town Code
+
+-   內政部感染縣市代碼: MOI Infection County Code
+
+-   內政部感染鄉鎮代碼: MOI Infection Town Code
+
+```{r}
+colnames(dengue_daily) <- c("Onset_Date", "Case_Classification_Date", "Reporting_Date", "Gender", 
+                  "Age_Group", "Residential_County_City", "Residential_Town_District", 
+                  "Residential_Village", "Smallest_Statistical_Area", "X_coord", 
+                  "Y_coord", "Primary_Statistical_Area", "Secondary_Statistical_Area",
+                  "Infection_County_City", "Infection_Town_District", "Infection_Village",
+                  "Imported_Case", "Infection_Country", "Confirmed_Cases", 
+                  "Residential_Village_Code", "Infection_Village_Code", "Serotype", 
+                  "MOI_Residential_County_Code", "MOI_Residential_Town_Code", 
+                  "MOI_Infection_County_Code", "MOI_Infection_Town_Code")
+
+```
+
+## 2.1 Filter Past 10 Years' Data
+
+By "發病日" column
+
+```{r}
+dengue_10yrs <- dengue_daily[dengue_daily$Onset_Date >= as.Date("2015-01-01") & dengue_daily$Onset_Date <= as.Date("2024-12-31"), ]
+```
+
+```{r}
+summary(dengue_10yrs)
+```
+
+## 2.2 Check Missing Values
+
+```{r}
+sum(is.na(dengue_10yrs))
+```
+
+\<TBC\>
+
+## 2.3 Data Cleaning
+
+# 3. Data Preparation
+
+Check Age_Group column
+
+```{r}
+age_group_count <- dengue_10yrs %>%
+  count(Age_Group)
+
+print(age_group_count)
+```
+
+Combine values 0,1,2,3,4, and sort the columns
+
+```{r}
+dengue_10yrs <- dengue_10yrs %>%
+  mutate(Age_Group = ifelse(Age_Group %in% c("0", "1", "2", "3", "4"), "0-4", Age_Group),
+         Age_Group = factor(Age_Group, levels = c("0-4", "5-9", 
+                                                  sort(unique(Age_Group[
+                                                      Age_Group != "0-4" & Age_Group != "5-9"]
+                                                      )))))
+```
+
+```{r}
+ggplot(data = dengue_10yrs, aes(x = Age_Group)) +
+    geom_bar(color = "black", fill = "grey") +  
+    ggtitle("Distribution of Age Groups") +
+    xlab("Age Group") +
+    ylab("Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+# 4. EDA
+
+Aggregate by Onset_Month, count,
+
+```{r}
+
+dengue_10yrs <- dengue_10yrs %>%
+  mutate(Date = ymd(Onset_Date))  # Convert Y/M/D to Date (use lubridate's ymd function)
+
+# Extract the year from the Date column
+dengue_10yrs <- dengue_10yrs %>%
+  mutate(Onset_Year = year(Date))
+
+aggregated_data <- dengue_10yrs %>%
+  group_by(Age_Group, Residential_County_City, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+cases_by_age <- aggregated_data %>%
+  plot_ly(x = ~Age_Group, 
+          y = ~Count, 
+          color = ~Residential_County_City,
+          text = ~Residential_County_City, 
+          hoverinfo = "text",
+          type = 'scatter',
+          mode = 'markers',
+          frame = ~Onset_Year) %>%
+  layout(
+    title = "Dengue Cases by Age Group",
+    xaxis = list(title = "Age Group"),
+    yaxis = list(title = "Count of Cases"),
+    showlegend = FALSE
+  )
+
+cases_by_age
+```
