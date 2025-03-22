@@ -98,10 +98,12 @@ colnames(dengue_daily) <- c("Onset_Date", "Case_Classification_Date", "Reporting
 
 ## 2.1 Filter Past 10 Years' Data
 
-By "發病日" column
+By Onset_Date
+
+Recent 12 years - 2013 to 2024
 
 ```{r}
-dengue_10yrs <- dengue_daily[dengue_daily$Onset_Date >= as.Date("2015-01-01") & dengue_daily$Onset_Date <= as.Date("2024-12-31"), ]
+dengue_10yrs <- dengue_daily[dengue_daily$Onset_Date >= as.Date("1988-01-01") & dengue_daily$Onset_Date <= as.Date("2024-12-31"), ]
 ```
 
 ```{r}
@@ -185,3 +187,5 @@ cases_by_age <- aggregated_data %>%
 
 cases_by_age
 ```
+
+2 spikes - 2015 in 2023
