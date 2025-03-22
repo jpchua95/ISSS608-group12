@@ -22,7 +22,6 @@ website:
 
 format:
   html:
-    template: "template/index.html"
     theme:
       - minty
       - brand
