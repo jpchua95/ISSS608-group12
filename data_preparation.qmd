@@ -188,4 +188,4 @@ cases_by_age <- aggregated_data %>%
 cases_by_age
 ```
 
-2 spikes - 2015 in 2023
+2 spikes - 2015 and 2023
