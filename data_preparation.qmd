@@ -93,27 +93,36 @@ colnames(dengue_daily) <- c("Onset_Date", "Case_Classification_Date", "Reporting
                   "Residential_Village_Code", "Infection_Village_Code", "Serotype", 
                   "MOI_Residential_County_Code", "MOI_Residential_Town_Code", 
                   "MOI_Infection_County_Code", "MOI_Infection_Town_Code")
-
 ```
 
-## 2.1 Filter Past 10 Years' Data
+```{r}
+names(dengue_daily)
+```
+
+```{r}
+dengue_daily <- dengue_daily %>%
+  mutate(Imported_Case = recode(Imported_Case, "是" = "Yes", "否" = "No"))
+```
+
+## 2.1 Filter Past 12 Years' Data
 
 By Onset_Date
 
 Recent 12 years - 2013 to 2024
 
 ```{r}
-dengue_10yrs <- dengue_daily[dengue_daily$Onset_Date >= as.Date("1988-01-01") & dengue_daily$Onset_Date <= as.Date("2024-12-31"), ]
+dengue_12yrs <- dengue_daily[dengue_daily$Onset_Date >= as.Date("2013-01-01") 
+                             & dengue_daily$Onset_Date <= as.Date("2024-12-31"), ]
 ```
 
 ```{r}
-summary(dengue_10yrs)
+summary(dengue_12yrs)
 ```
 
 ## 2.2 Check Missing Values
 
 ```{r}
-sum(is.na(dengue_10yrs))
+sum(is.na(dengue_12yrs))
 ```
 
 \<TBC\>
@@ -125,7 +134,7 @@ sum(is.na(dengue_10yrs))
 Check Age_Group column
 
 ```{r}
-age_group_count <- dengue_10yrs %>%
+age_group_count <- dengue_12yrs %>%
   count(Age_Group)
 
 print(age_group_count)
@@ -134,7 +143,7 @@ print(age_group_count)
 Combine values 0,1,2,3,4, and sort the columns
 
 ```{r}
-dengue_10yrs <- dengue_10yrs %>%
+dengue_12yrs <- dengue_12yrs %>%
   mutate(Age_Group = ifelse(Age_Group %in% c("0", "1", "2", "3", "4"), "0-4", Age_Group),
          Age_Group = factor(Age_Group, levels = c("0-4", "5-9", 
                                                   sort(unique(Age_Group[
@@ -143,7 +152,7 @@ dengue_10yrs <- dengue_10yrs %>%
 ```
 
 ```{r}
-ggplot(data = dengue_10yrs, aes(x = Age_Group)) +
+ggplot(data = dengue_12yrs, aes(x = Age_Group)) +
     geom_bar(color = "black", fill = "grey") +  
     ggtitle("Distribution of Age Groups") +
     xlab("Age Group") +
@@ -158,14 +167,14 @@ Aggregate by Onset_Month, count,
 
 ```{r}
 
-dengue_10yrs <- dengue_10yrs %>%
-  mutate(Date = ymd(Onset_Date))  # Convert Y/M/D to Date (use lubridate's ymd function)
+dengue_12yrs <- dengue_12yrs %>%
+  mutate(Date = ymd(Onset_Date)) 
 
 # Extract the year from the Date column
-dengue_10yrs <- dengue_10yrs %>%
-  mutate(Onset_Year = year(Date))
+dengue_12yrs <- dengue_12yrs %>%
+  mutate(Onset_Year =as.integer(year(Date)))
 
-aggregated_data <- dengue_10yrs %>%
+aggregated_data <- dengue_12yrs %>%
   group_by(Age_Group, Residential_County_City, Onset_Year) %>%
   summarize(Count = n(), .groups = "drop")
 
@@ -189,3 +198,111 @@ cases_by_age
 ```
 
 2 spikes - 2015 in 2023
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code"
+#| eval: FALSE
+dengue_aggregated <- dengue_12yrs %>%
+  group_by(Age_Group, Residential_County_City, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+dengue_aggregated$Onset_Year <- as.factor(dengue_aggregated$Onset_Year)
+
+ggplot(dengue_aggregated, aes(x = Onset_Year, y = Count, fill = Age_Group)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ Residential_County_City, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Dengue Cases Over Time by Region",
+    x = "Year",
+    y = "Case Count",
+    fill = "Age Group"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#| echo: FALSE
+#| fig-height: 10
+#| fig-width: 8
+dengue_aggregated <- dengue_12yrs %>%
+  group_by(Age_Group, Residential_County_City, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+dengue_aggregated$Onset_Year <- as.factor(dengue_aggregated$Onset_Year)
+
+ggplot(dengue_aggregated, aes(x = Onset_Year, y = Count, fill = Age_Group)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ Residential_County_City, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Dengue Cases Over Time by Region",
+    x = "Year",
+    y = "Case Count",
+    fill = "Age Group"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+```{r}
+cases_by_year <- dengue_12yrs %>%
+  group_by(Onset_Year, Imported_Case) %>%
+  summarize(Count = n(), .groups = "drop")
+
+cases_by_year$Onset_Year <- as.factor(cases_by_year$Onset_Year)
+
+ggplot(cases_by_year, aes(x = Onset_Year, y = Count, color = Imported_Case, group = Imported_Case)) +
+  geom_line(size = 1.5) + 
+  geom_point(size = 3) +   
+  labs(title = "Dengue Cases by Year (Imported vs Local)", 
+       x = "Year", 
+       y = "Number of Cases",
+       color = "Imported Case") +
+  theme_minimal() 
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code"
+#| eval: FALSE
+cases_by_year_facets <- dengue_12yrs %>%
+  group_by(Onset_Year, Imported_Case, Residential_County_City) %>%
+  summarize(Count = n(), .groups = "drop")
+
+cases_by_year_facets$Onset_Year <- as.factor(cases_by_year_facets$Onset_Year)
+
+ggplot(cases_by_year_facets, aes(x = Onset_Year, y = Count, color = Imported_Case, group = Imported_Case)) +
+  geom_line(size = 1.5) + 
+  geom_point(size = 3) +   
+  labs(title = "Dengue Cases by Year (Imported vs Local)", 
+       x = "Year", 
+       y = "Number of Cases",
+       color = "Imported Case") +
+  facet_wrap(~ Residential_County_City, scales = "free_y") + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#| echo: FALSE
+#| fig-height: 10
+#| fig-width: 8
+cases_by_year_facets <- dengue_12yrs %>%
+  group_by(Onset_Year, Imported_Case, Residential_County_City) %>%
+  summarize(Count = n(), .groups = "drop")
+
+cases_by_year_facets$Onset_Year <- as.factor(cases_by_year_facets$Onset_Year)
+
+ggplot(cases_by_year_facets, aes(x = Onset_Year, y = Count, color = Imported_Case, group = Imported_Case)) +
+  geom_line(size = 1.5) + 
+  geom_point(size = 3) +   
+  labs(title = "Dengue Cases by Year (Imported vs Local)", 
+       x = "Year", 
+       y = "Number of Cases",
+       color = "Imported Case") +
+  facet_wrap(~ Residential_County_City, scales = "free_y") + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
