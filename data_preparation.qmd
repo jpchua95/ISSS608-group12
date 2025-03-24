@@ -328,8 +328,8 @@ st_crs(dengue_12yrs_sf)
 ## 3.3 Joining Attribute and Geospatial Data
 
 ```{r}
-tw_map_12_yrs <- left_join(tw_map, dengue_12yrs,
-                          by = c("COUNTYNAME" = "Residential_County_City"))
+#tw_map_12_yrs <- left_join(tw_map, dengue_12yrs,
+#                          by = c("COUNTYNAME" = "Residential_County_City"))
 ```
 
 ```{r}

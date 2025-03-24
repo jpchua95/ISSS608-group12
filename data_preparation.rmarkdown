@@ -257,7 +257,7 @@ tm_shape(tw_map) +
 
 
 
-# 3. Data Preparation 
+# 3. Data Preparation
 
 ## 3.1 View Dataset Over the Years
 
@@ -439,8 +439,7 @@ dengue_12yrs <- dengue_12yrs %>%
                                                       )))))
 ```
 
-
-
+```{r}
 ggplot(data = dengue_12yrs, aes(x = Age_Group)) +
     geom_bar(color = "black", fill = "grey") +  
     ggtitle("Distribution of Age Groups") +
@@ -448,3 +447,5 @@ ggplot(data = dengue_12yrs, aes(x = Age_Group)) +
     ylab("Count") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
