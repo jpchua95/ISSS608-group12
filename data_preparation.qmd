@@ -340,11 +340,11 @@ st_crs(dengue_12yrs_sf)
 
 ```{r}
 
-tmap_mode("view")
-tm_shape(tw_map) + 
-    tm_polygons() +
-    tm_shape(dengue_12yrs_sf) +
-    tm_dots(col = "red")
+#tmap_mode("view")
+#tm_shape(tw_map) + 
+#    tm_polygons() +
+#    tm_shape(dengue_12yrs_sf) +
+#    tm_dots(col = "red")
 ```
 
 Check Age_Group column
