@@ -256,8 +256,6 @@ cases_by_age <- dengue_daily_aggregated %>%
 cases_by_age
 ```
 
-\<\<\<\<\<\<\< HEAD
-
 ```{r}
 #| echo: FALSE
 #| fig-height: 10
