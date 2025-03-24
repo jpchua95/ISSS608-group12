@@ -9,6 +9,9 @@ execute:
     freeze: true
 ---
 
+
+
+
 # 1 Getting Started
 
 The following R packages will be required:
@@ -21,15 +24,24 @@ The following R packages will be required:
 
 -   tmap
 
+
+
+
 ```{r}
 pacman::p_load(tidyverse, plotly, sf, tmap)
 ```
+
+
+
 
 # 2 Importing Data
 
 ## 2.1 Importing Dengue Dataset
 
 The code chunk below uses `read_csv()` of `readr` to import the `dengue_daily` dataset into R environment.
+
+
+
 
 ```{r}
 dengue_daily <- read_csv("data/Dengue_Daily.csv")
@@ -38,6 +50,9 @@ dengue_daily <- read_csv("data/Dengue_Daily.csv")
 ```{r}
 summary(dengue_daily)
 ```
+
+
+
 
 Translating the column names into English will make the dataset more user-friendly:
 
@@ -93,6 +108,9 @@ Translating the column names into English will make the dataset more user-friend
 
 -   內政部感染鄉鎮代碼: MOI Infection Town Code
 
+
+
+
 ```{r}
 colnames(dengue_daily) <- c("Onset_Date", "Case_Classification_Date", "Reporting_Date", "Gender", 
                   "Age_Group", "Residential_County_City", "Residential_Town_District", 
@@ -105,12 +123,21 @@ colnames(dengue_daily) <- c("Onset_Date", "Case_Classification_Date", "Reporting
                   "MOI_Infection_County_Code", "MOI_Infection_Town_Code")
 ```
 
+
+
+
 Checking the column titles:
+
+
+
 
 ```{r}
 #| echo: FALSE
 names(dengue_daily)
 ```
+
+
+
 
 Translating the `Imported_Case` and `Residential_County_City` column values for better usability.
 
@@ -158,6 +185,9 @@ Translating the `Imported_Case` and `Residential_County_City` column values for 
 
 -   金門縣: Kinmen County
 
+
+
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Show Code for Imported_Case"
@@ -194,9 +224,15 @@ dengue_daily <- dengue_daily %>%
                                               "金門縣" = "Kinmen County"))
 ```
 
+
+
+
 ## 2.2 Importing Taiwan Geospatial Data
 
 Loading and viewing the Taiwan map.
+
+
+
 
 ```{r}
 tw_map <- st_read(dsn = "data/TAIWAN_VILLAGE_2020", 
@@ -218,9 +254,15 @@ tm_shape(tw_map) +
         frame = FALSE)
 ```
 
-# 3. Data Preparation
+
+
+
+# 3. Data Preparation 
 
 ## 3.1 View Dataset Over the Years
+
+
+
 
 ```{r}
 #| code-fold: true
@@ -290,7 +332,13 @@ cases_by_age <- dengue_daily_aggregated %>%
 cases_by_age
 ```
 
+
+
+
 We observed several spikes in the last 12 years from 2013 to 2024, so we will filter the dataset to focus our analysis on relevant trends.
+
+
+
 
 ```{r}
 dengue_12yrs <- dengue_daily[dengue_daily$Onset_Date >= as.Date("2013-01-01") 
@@ -301,7 +349,13 @@ dengue_12yrs <- dengue_daily[dengue_daily$Onset_Date >= as.Date("2013-01-01")
 summary(dengue_12yrs)
 ```
 
+
+
+
 ## 3.2 Check Missing Values
+
+
+
 
 ```{r}
 sum(is.na(dengue_12yrs))
@@ -325,7 +379,13 @@ dengue_12yrs_sf <- st_as_sf(dengue_12yrs, coords = c("X_coord", "Y_coord"),
 st_crs(dengue_12yrs_sf)
 ```
 
+
+
+
 ## 3.3 Joining Attribute and Geospatial Data
+
+
+
 
 ```{r}
 tw_map_12_yrs <- left_join(tw_map, dengue_12yrs,
@@ -347,7 +407,13 @@ tm_shape(tw_map) +
     tm_dots(col = "red")
 ```
 
+
+
+
 Check Age_Group column
+
+
+
 
 ```{r}
 age_group_count <- dengue_12yrs %>%
@@ -356,7 +422,13 @@ age_group_count <- dengue_12yrs %>%
 print(age_group_count)
 ```
 
+
+
+
 Combine values 0,1,2,3,4, and sort the columns
+
+
+
 
 ```{r}
 dengue_12yrs <- dengue_12yrs %>%
@@ -367,7 +439,8 @@ dengue_12yrs <- dengue_12yrs %>%
                                                       )))))
 ```
 
-```{r}
+
+
 ggplot(data = dengue_12yrs, aes(x = Age_Group)) +
     geom_bar(color = "black", fill = "grey") +  
     ggtitle("Distribution of Age Groups") +
@@ -375,4 +448,3 @@ ggplot(data = dengue_12yrs, aes(x = Age_Group)) +
     ylab("Count") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
-```
