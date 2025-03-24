@@ -1,4 +1,5 @@
 /.quarto/
 .Rproj.user
+knit.md
 
 data/
