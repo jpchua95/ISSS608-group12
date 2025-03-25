@@ -1,0 +1,83 @@
+---
+title: "Time Series"
+author: "Zanelle Lee Wenfang"
+date-modified: "last-modified"
+execute:
+    echo: true
+    eval: true
+    warning: false
+    freeze: true
+---
+
+# Dengue in Taiwan
+
+## 1. Overview
+
+## 2. Loading R packages and data
+
+First, we load the appropriate R packages that are necessary for the exploration of the dataset, as well as for its analysis and time series usage. In this segment, we will be loading **tidyverse** and **plotly**.
+
+```{r}
+pacman::p_load(tidyverse, plotly, googleLanguageR)
+```
+
+The dataset is loaded into *dengue_daily*. We
+
+```{r}
+dengue_daily <- read_csv("data/Dengue_Daily.csv")
+summary(dengue_daily)
+```
+
+Column names are translated to English.
+
+```{r}
+colnames(dengue_daily) <- c("Onset_Date", "Case_Classification_Date", "Reporting_Date", "Gender", 
+                  "Age_Group", "Residential_County_City", "Residential_Town_District", 
+                  "Residential_Village", "Smallest_Statistical_Area", "X_coord", 
+                  "Y_coord", "Primary_Statistical_Area", "Secondary_Statistical_Area",
+                  "Infection_County_City", "Infection_Town_District", "Infection_Village",
+                  "Imported_Case", "Infection_Country", "Confirmed_Cases", 
+                  "Residential_Village_Code", "Infection_Village_Code", "Serotype", 
+                  "MOI_Residential_County_Code", "MOI_Residential_Town_Code", 
+                  "MOI_Infection_County_Code", "MOI_Infection_Town_Code")
+```
+
+translate values
+
+```{r}
+dengue_daily %>% distinct(Residential_Town_District)
+```
+
+```{r}
+#dengue_daily %>% distinct(Residential_County_City_t)
+```
+
+```{r}
+dengue_daily <- dengue_daily %>%
+  mutate(Residential_County_City_t = recode(Residential_County_City,
+                                      "屏東縣" = "Pingtung County",
+                                      "宜蘭縣" = "Yilan County",
+                                      "高雄市" = "Kaohsiung City",
+                                      "桃園市" = "Taoyuan City",
+                                      "新北市" = "New Taipei City",
+                                      "台北市" = "Taipei City",
+                                      "台南市" = "Tainan City",
+                                      "新竹縣" = "Hsinchu County",
+                                      "南投縣" = "Nantou County",
+                                      "台中市" = "Taichung City",
+                                      "新竹市" = "Hsinchu City",
+                                      "雲林縣" = "Yunlin County",
+                                      "彰化縣" = "Changhua County",
+                                      "花蓮縣" = "Hualien County",
+                                      "台東縣" = "Taitung County",
+                                      "嘉義縣" = "Chiayi County",
+                                      "嘉義市" = "Chiayi City",
+                                      "基隆市" = "Keelung City",
+                                      "苗栗縣" = "Miaoli County",
+                                      "澎湖縣" = "Penghu County",
+                                      "連江縣" = "Lianjiang County",
+                                      "金門縣" = "Kinmen County"))
+
+
+
+```

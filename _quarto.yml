@@ -19,7 +19,7 @@ website:
           href: Minutes/meeting_minutes_3.html
         - text: Meeting Minutes 4
           href: Minutes/meeting_minutes_4.html
-      - href: data_preparation.qmd
+      - href: data_preparation_ref.qmd
         text: Data Preparation
 
 format:
