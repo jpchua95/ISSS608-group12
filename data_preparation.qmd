@@ -9,33 +9,39 @@ execute:
     freeze: true
 ---
 
-# 1 Getting Started
+# 1 Loading R Packages and Datasets
+
+## 1.1 Loading R Packages
 
 The following R packages will be required:
 
--   tidyverse
+-   `tidyverse`: Used for data manipulation, visualisation and analysis
 
--   plotly
+-   `plotly`: For plotting interactive statistical graphs
 
--   sf
+-   `sf`: For analysing and visualising spatial data
 
--   tmap
+-   `tmap`: Create static and interactive thematic maps
+
+-   `GGally`: Provide additional visualisation functions
+
+-   `ggplot2`: For customisable plots
 
 ```{r}
-pacman::p_load(tidyverse, plotly, sf, tmap)
+#| code-fold: true
+#| code-summary: "Loading R packages"
+pacman::p_load(tidyverse, plotly, sf, tmap, GGally, ggstatsplot, ggmosaic)
 ```
 
-# 2 Importing Data
-
-## 2.1 Importing Dengue Dataset
+## 1.2 Importing Dengue Dataset
 
 The code chunk below uses `read_csv()` of `readr` to import the `dengue_daily` dataset into R environment.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Importing Dengue_Daily dataset"
 dengue_daily <- read_csv("data/Dengue_Daily.csv")
-```
 
-```{r}
 summary(dengue_daily)
 ```
 
@@ -94,6 +100,8 @@ Translating the column names into English will make the dataset more user-friend
 -   內政部感染鄉鎮代碼: MOI Infection Town Code
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Show code"
 colnames(dengue_daily) <- c("Onset_Date", "Case_Classification_Date", "Reporting_Date", "Gender", 
                   "Age_Group", "Residential_County_City", "Residential_Town_District", 
                   "Residential_Village", "Smallest_Statistical_Area", "X_coord", 
@@ -159,17 +167,34 @@ Translating the `Imported_Case` and `Residential_County_City` column values for 
 -   金門縣: Kinmen County
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Show Code for Imported_Case"
 dengue_daily <- dengue_daily %>%
-    mutate(Imported_Case = recode(Imported_Case, "是" = "Yes", "否" = "No"))
+    rowwise() %>% 
+    mutate(Confirmed_Cases = list(rep(1, Confirmed_Cases))) %>% 
+    unnest(Confirmed_Cases)  
 ```
+
+Viewing the `Age_Group` column.
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Show Code for new column Residential_County_City_t"
+#| code-summary: "Show Code"
+#| fig-height: 10
+#| fig-width: 8
+age_group_count <- dengue_daily %>%
+  count(Age_Group)
+
+print(age_group_count)
+```
+
+The Age_Group values are inconsistent as there are individual values with relatively low counts. Let's combine ages 0,1,2,3,4, to a single age group, "0-4", and sort the columns for better readability.
+
+We will also translate the columns for better readability for our users.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code for translations and regrouping of age group"
 dengue_daily <- dengue_daily %>%
-    mutate(Residential_County_City_t = recode(Residential_County_City,
+    mutate(Residential_County_City = recode(Residential_County_City,
                                               "屏東縣" = "Pingtung County",
                                               "宜蘭縣" = "Yilan County",
                                               "高雄市" = "Kaohsiung City",
@@ -191,91 +216,58 @@ dengue_daily <- dengue_daily %>%
                                               "苗栗縣" = "Miaoli County",
                                               "澎湖縣" = "Penghu County",
                                               "連江縣" = "Lianjiang County",
-                                              "金門縣" = "Kinmen County"))
+                                              "金門縣" = "Kinmen County"),
+           Imported_Case = recode(Imported_Case, "是" = "Yes", "否" = "No"),
+           Serotype = recode(Serotype, "第一型" = "Type 1",
+                             "第二型" = "Type 2",
+                             "第三型" = "Type 3",
+                             "第四型" = "Type 4"),
+           Age_Group = ifelse(Age_Group %in% c("0", "1", "2", "3", "4"), 
+                              "0-4", Age_Group),
+           Age_Group = factor(Age_Group, levels = c("0-4", "5-9", 
+                                                    sort(unique(Age_Group[
+                                                        Age_Group != "0-4" &
+                                                            Age_Group != "5-9"]
+                                                        )))))
 ```
 
-## 2.2 Importing Taiwan Geospatial Data
-
-Loading and viewing the Taiwan map.
+We'll select columns required for our analysis.
 
 ```{r}
-tw_map <- st_read(dsn = "data/TAIWAN_VILLAGE_2020", 
-                layer = "VILLAGE_MOI_1090324")
+#| code-fold: true
+#| code-summary: "Selected columns"
+dengue_daily <- dengue_daily %>% 
+    select(Onset_Date, Gender, Age_Group, Residential_County_City, 
+           Residential_Town_District, X_coord, Y_coord, Imported_Case, Serotype,
+           MOI_Residential_County_Code, MOI_Residential_Town_Code)
 ```
 
-```{r}
-st_crs(tw_map)
-```
+# 2. Data Preparation
 
-```{r}
-tmap_mode("plot")
-tm_shape(tw_map) +
-    tm_fill(col="white") +
-    tm_borders(col = "black", lwd=0.3, alpha=0.6)+
-    tm_layout(
-        main.title = "Taiwan Villages",
-        main.title.position = "center",
-        frame = FALSE)
-```
+## 2.1 View Dataset Over the Years
 
-# 3. Data Preparation
-
-## 3.1 View Dataset Over the Years
+Let observe the dengue cases by age groups over the years.
 
 ```{r}
 #| code-fold: true
 #| code-summary: "Show Code"
-#| eval: FALSE
-dengue_daily <- dengue_daily %>%
-  mutate(Date = ymd(Onset_Date)) 
-
-# Extract the year from the Date column
-dengue_daily <- dengue_daily %>%
-  mutate(Onset_Year =as.integer(year(Date)))
-
-dengue_daily_aggregated <- dengue_daily %>%
-  group_by(Age_Group, Residential_County_City_t, Onset_Year) %>%
-  summarize(Count = n(), .groups = "drop")
-
-cases_by_age <- dengue_daily_aggregated %>%
-  plot_ly(x = ~Age_Group, 
-          y = ~Count, 
-          color = ~Residential_County_City_t,
-          text = ~Residential_County_City_t, 
-          hoverinfo = "text",
-          type = 'scatter',
-          mode = 'markers',
-          frame = ~Onset_Year) %>%
-  layout(
-    title = "Dengue Cases by Age Group",
-    xaxis = list(title = "Age Group"),
-    yaxis = list(title = "Count of Cases"),
-    showlegend = FALSE
-  )
-
-cases_by_age
-```
-
-```{r}
-#| echo: FALSE
-#| fig-height: 10
 #| fig-width: 8
 dengue_daily <- dengue_daily %>%
-  mutate(Date = ymd(Onset_Date)) 
+  mutate(Onset_Date = ymd(Onset_Date)) 
 
 # Extract the year from the Date column
 dengue_daily <- dengue_daily %>%
-  mutate(Onset_Year =as.integer(year(Date)))
+  mutate(Onset_Year = as.integer(year(Onset_Date)))
 
 dengue_daily_aggregated <- dengue_daily %>%
-  group_by(Age_Group, Residential_County_City_t, Onset_Year) %>%
+  group_by(Age_Group, Residential_County_City, Onset_Year) %>%
   summarize(Count = n(), .groups = "drop")
 
 cases_by_age <- dengue_daily_aggregated %>%
   plot_ly(x = ~Age_Group, 
           y = ~Count, 
-          color = ~Residential_County_City_t,
-          text = ~Residential_County_City_t, 
+          color = ~Residential_County_City,
+          text = ~Residential_County_City, 
           hoverinfo = "text",
           type = 'scatter',
           mode = 'markers',
@@ -290,89 +282,145 @@ cases_by_age <- dengue_daily_aggregated %>%
 cases_by_age
 ```
 
-We observed several spikes in the last 12 years from 2013 to 2024, so we will filter the dataset to focus our analysis on relevant trends.
+Let observe the dengue cases by various factors over the years.
+
+::: panel-tabset
+### Age Group
 
 ```{r}
-dengue_12yrs <- dengue_daily[dengue_daily$Onset_Date >= as.Date("2013-01-01") 
-                             & dengue_daily$Onset_Date <= as.Date("2024-12-31"), ]
+#| code-fold: true
+#| code-summary: "Show Code"
+group_by_age <- dengue_daily %>%
+  group_by(Age_Group, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+ggplot(group_by_age, aes(x = Onset_Year, y = Count, 
+                         fill = factor(Age_Group))) +
+    geom_bar(stat = "identity") +
+    labs(title = "Dengue Cases by Age Group Across Years",
+        x = "Year",
+        y = "Count of Cases",
+        fill = "Age_Group")
 ```
 
+### Gender
+
 ```{r}
-summary(dengue_12yrs)
+#| code-fold: true
+#| code-summary: "Show Code"
+group_by_gender <- dengue_daily %>%
+  group_by(Gender, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+ggplot(group_by_gender, aes(x = Onset_Year, y = Count, 
+                            fill = factor(Gender))) +
+    geom_bar(stat = "identity") +
+    labs(title = "Dengue Cases by Gender Across Years",
+        x = "Year",
+        y = "Count of Cases",
+        fill = "Gender")
 ```
 
-## 3.2 Check Missing Values
+### Serotype
 
 ```{r}
-sum(is.na(dengue_12yrs))
+#| code-fold: true
+#| code-summary: "Show Code"
+group_by_serotype <- dengue_daily %>%
+  group_by(Serotype, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+ggplot(group_by_serotype, aes(x = Onset_Year, y = Count, 
+                              fill = factor(Serotype))) +
+    geom_bar(stat = "identity") +
+    labs(title = "Dengue Cases by Serotype Across Years",
+        x = "Year",
+        y = "Count of Cases",
+        fill = "Serotype") 
 ```
 
+### Residential County City
+
 ```{r}
-sum(is.na(dengue_12yrs$X_coord))
+#| code-fold: true
+#| code-summary: "Show Code"
+#| fig-width: 10
+group_by_county <- dengue_daily %>%
+  group_by(Residential_County_City, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+ggplot(group_by_county, aes(x = Onset_Year, y = Count, 
+                            fill = factor(Residential_County_City))) +
+    geom_bar(stat = "identity") +
+    labs(title = "Dengue Cases by County City Across Years",
+        x = "Year",
+        y = "Count of Cases",
+        fill = "County City") + 
+    theme(legend.text = element_text(size = 7),   
+    )
 ```
 
+### Imported Cases
+
 ```{r}
-sum(is.na(dengue_12yrs$Y_coord))
+#| code-fold: true
+#| code-summary: "Show Code"
+group_by_imported <- dengue_daily %>%
+  group_by(Imported_Case, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+ggplot(group_by_imported, aes(x = Onset_Year, y = Count, 
+                              fill = factor(Imported_Case))) +
+    geom_bar(stat = "identity") +
+    labs(title = "Dengue Cases by County City Across Years",
+        x = "Year",
+        y = "Count of Cases",
+        fill = "Imported Case") 
+```
+:::
+
+## 2.2 Check Missing Values
+
+::: panel-tabset
+### X_coord
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code"
+sum(is.na(dengue_daily$X_coord))
 ```
 
+### Y_coord
+
 ```{r}
-dengue_12yrs <- dengue_12yrs %>% filter(X_coord != 0, Y_coord != 0)
+#| code-fold: true
+#| code-summary: "Show Code"
+sum(is.na(dengue_daily$Y_coord))
+```
+:::
+
+We'll only keep the rows where there's X-coordinate and Y-coordinate value.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code"
+dengue_daily <- dengue_daily %>% filter(X_coord != 0, Y_coord != 0)
 ```
 
+## 2.3 Deriving Epiweek
+
+[`epiweek()`](https://lubridate.tidyverse.org/reference/week.html) is the US CDC version of epidemiological week. It follows same rules as `isoweek()` but starts on Sunday. We create a new variable `Onset_Epiweek` to log the epidemiological weeks.
+
 ```{r}
-dengue_12yrs_sf <- st_as_sf(dengue_12yrs, coords = c("X_coord", "Y_coord"),
-                            crs = 3824)
-st_crs(dengue_12yrs_sf)
+#| code-fold: true
+#| code-summary: "Show Code"
+dengue_daily <- dengue_daily %>% mutate(Onset_Epiweek = epiweek(Onset_Date))
 ```
 
-## 3.3 Joining Attribute and Geospatial Data
+## 2.4 Exporting CSV file
 
 ```{r}
-#tw_map_12_yrs <- left_join(tw_map, dengue_12yrs,
-#                          by = c("COUNTYNAME" = "Residential_County_City"))
-```
-
-```{r}
-#tmap_mode("plot")
-#qtm(tw_map_12_yrs, 
-#    fill = "Age_Group")
-```
-
-```{r}
-
-#tmap_mode("view")
-#tm_shape(tw_map) + 
-#    tm_polygons() +
-#    tm_shape(dengue_12yrs_sf) +
-#    tm_dots(col = "red")
-```
-
-Check Age_Group column
-
-```{r}
-age_group_count <- dengue_12yrs %>%
-  count(Age_Group)
-
-print(age_group_count)
-```
-
-Combine values 0,1,2,3,4, and sort the columns
-
-```{r}
-dengue_12yrs <- dengue_12yrs %>%
-  mutate(Age_Group = ifelse(Age_Group %in% c("0", "1", "2", "3", "4"), "0-4", Age_Group),
-         Age_Group = factor(Age_Group, levels = c("0-4", "5-9", 
-                                                  sort(unique(Age_Group[
-                                                      Age_Group != "0-4" & Age_Group != "5-9"]
-                                                      )))))
-```
-
-```{r}
-ggplot(data = dengue_12yrs, aes(x = Age_Group)) +
-    geom_bar(color = "black", fill = "grey") +  
-    ggtitle("Distribution of Age Groups") +
-    xlab("Age Group") +
-    ylab("Count") +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+#| code-fold: true
+#| code-summary: "Allow exporting of dengue_daily CSV file"
+write.csv(dengue_daily, "data/dengue_daily_en.csv", row.names = FALSE)
 ```

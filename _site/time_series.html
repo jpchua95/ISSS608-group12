@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Zanelle Lee Wenfang">
 
-<title>ISSS608 Group 12</title>
+<title>Time Series – ISSS608 Group 12</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -89,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -123,29 +158,10 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Analysis</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-analysis">    
-        <li>
-    <a class="dropdown-item" href="./data_preparation.html">
- <span class="dropdown-text">Data Preparation</span></a>
+  <li class="nav-item">
+    <a class="nav-link" href="./data_preparation_ref.qmd"> 
+<span class="menu-text">Data Preparation</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./eda.qmd">
- <span class="dropdown-text">Exploratory Data Analysis (EDA)</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./cda.qmd">
- <span class="dropdown-text">Confirmatory Data Analysis (CDA)</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./time_series.html">
- <span class="dropdown-text">Time Series Analysis</span></a>
-  </li>  
-    </ul>
-  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -162,70 +178,190 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#taiwan-dengue-cases-analysis" id="toc-taiwan-dengue-cases-analysis" class="nav-link active" data-scroll-target="#taiwan-dengue-cases-analysis">Taiwan Dengue Cases Analysis</a>
+  <li><a href="#dengue-in-taiwan" id="toc-dengue-in-taiwan" class="nav-link active" data-scroll-target="#dengue-in-taiwan">Dengue in Taiwan</a>
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#imported-cases-as-the-primary-cause-of-outbreaks" id="toc-imported-cases-as-the-primary-cause-of-outbreaks" class="nav-link" data-scroll-target="#imported-cases-as-the-primary-cause-of-outbreaks">Imported Cases as the Primary Cause of Outbreaks</a></li>
-  <li><a href="#understanding-the-dengue-transmission-dynamics" id="toc-understanding-the-dengue-transmission-dynamics" class="nav-link" data-scroll-target="#understanding-the-dengue-transmission-dynamics">Understanding the Dengue Transmission Dynamics</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
-  </ul></li>
-  <li><a href="#meet-the-team" id="toc-meet-the-team" class="nav-link" data-scroll-target="#meet-the-team">Meet The Team</a>
-  <ul class="collapse">
-  <li><a href="#professor-kam-tin-seong" id="toc-professor-kam-tin-seong" class="nav-link" data-scroll-target="#professor-kam-tin-seong"><strong>Professor Kam Tin Seong</strong></a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">1. Overview</a></li>
+  <li><a href="#loading-r-packages-and-data" id="toc-loading-r-packages-and-data" class="nav-link" data-scroll-target="#loading-r-packages-and-data">2. Loading R packages and data</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
 
-
-
-
-<div style="text-align: center">
-<p><strong>Hello! We are Group 12, nice to meet you 😊</strong></p>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Time Series</h1>
 </div>
-<section id="taiwan-dengue-cases-analysis" class="level1">
-<h1>Taiwan Dengue Cases Analysis</h1>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Dengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 (<a href="https://www.who.int/emergencies/disease-outbreak-news/item/2023-DON498">World Health Organisation, 2023</a>). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore.</p>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zanelle Lee Wenfang </p>
+          </div>
+  </div>
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">March 26, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="dengue-in-taiwan" class="level1">
+<h1>Dengue in Taiwan</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">1. Overview</h2>
 </section>
-<section id="imported-cases-as-the-primary-cause-of-outbreaks" class="level2">
-<h2 class="anchored" data-anchor-id="imported-cases-as-the-primary-cause-of-outbreaks">Imported Cases as the Primary Cause of Outbreaks</h2>
-<p>Several studies highlight the impact of imported dengue cases on local outbreaks in non-endemic regions such as Taiwan. Reports from the Taiwan Centers for Disease Control indicate that Taiwan has historically experienced dengue outbreaks despite not having endemic transmission. Imported cases, particularly from Southeast Asia, have been identified as the primary cause of local outbreaks.</p>
-<p>A study published in PubMed Central supports this claim, stating that continuous importation of Dengue Virus (DENV) strains from neighboring countries remains the major driver of dengue epidemics in Taiwan.<span class="citation" data-cites="yung2015">[@yung2015]</span> In 2019, Taiwan reported 540 imported cases, making local containment more challenging. The COVID-19 pandemic (2020-2022) led to a temporary decline in imported cases due to strict border controls, resulting in fewer local outbreaks. However, after the easing of restrictions in 2023, there was a surge of imported cases, contributing to a major outbreak of local cases.<span class="citation" data-cites="chiu2024">[@chiu2024]</span></p>
-</section>
-<section id="understanding-the-dengue-transmission-dynamics" class="level2">
-<h2 class="anchored" data-anchor-id="understanding-the-dengue-transmission-dynamics">Understanding the Dengue Transmission Dynamics</h2>
-<p>Dengue Virus (DENV) consists of 4 serotypes - DEN-1 to DEN-4. These are primarily transmitted by Aedes aegypti and Aedes albopictus mosquitoes. While climate conditions and urbanization contribute to the local spread of dengue, the introduction of infected travelers plays a crucial role in initiating outbreaks. Imported cases introduce new viral strains into non-endemic areas, providing a source for further transmission if competent mosquito vectors are present.<span class="citation" data-cites="yung2015">[@yung2015]</span></p>
-</section>
-<section id="objectives" class="level2">
-<h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
-<p>Our project aims to:</p>
-<ul>
-<li><p>Develop interactive visualizations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan</p></li>
-<li><p>Perform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models</p></li>
-<li><p>Conduct correlation analysis of dengue cases with external factors</p></li>
-</ul>
-<p>Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.</p>
-</section>
-</section>
-<section id="meet-the-team" class="level1">
-<h1>Meet The Team</h1>
-<p><a href="https://www.linkedin.com/in/zanellelee/"><strong>Zanelle Lee Wenfang</strong></a></p>
-<p>Master of IT in Business (Analytics Track)</p>
-<p>Singapore Management University</p>
-<p><img src="zanelle.jpeg" class="img-fluid" width="317"></p>
-<p><a href="https://www.linkedin.com/in/chuajp/"><strong>Chua Jia Peng</strong></a></p>
-<p>Master of IT in Business (Analytics Track)</p>
-<p>Singapore Management University</p>
-<p><img src="Corporate headshot 2022.jpg" class="img-fluid" width="264"></p>
-<section id="professor-kam-tin-seong" class="level3">
-<h3 class="anchored" data-anchor-id="professor-kam-tin-seong"><a href="https://faculty.smu.edu.sg/profile/kam-tin-seong-486"><strong>Professor Kam Tin Seong</strong></a></h3>
-<p>Associate Professor of Information Systems (Practice)</p>
-<p>Singapore Management University</p>
-<p><img src="Prof photo.jpg" class="img-fluid" width="282"></p>
+<section id="loading-r-packages-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-r-packages-and-data">2. Loading R packages and data</h2>
+<p>First, we load the appropriate R packages that are necessary for the exploration of the dataset, as well as for its analysis and time series usage. In this segment, we will be loading <strong>tidyverse</strong> and <strong>plotly</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, plotly, googleLanguageR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>package 'googleAuthR' successfully unpacked and MD5 sums checked
+package 'googleLanguageR' successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    C:\Users\jiape\AppData\Local\Temp\RtmpgNuVL5\downloaded_packages</code></pre>
+</div>
+</div>
+<p>The dataset is loaded into <em>dengue_daily</em>. We</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dengue_daily <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/Dengue_Daily.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dengue_daily)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     發病日             個案研判日             通報日          
+ Min.   :1998-01-02   Min.   :2004-05-16   Min.   :1998-01-07  
+ 1st Qu.:2014-10-29   1st Qu.:2014-11-28   1st Qu.:2014-10-31  
+ Median :2015-09-29   Median :2015-10-10   Median :2015-10-01  
+ Mean   :2016-04-13   Mean   :2017-02-27   Mean   :2016-04-16  
+ 3rd Qu.:2023-07-10   3rd Qu.:2023-08-18   3rd Qu.:2023-07-13  
+ Max.   :2025-03-16   Max.   :2025-03-16   Max.   :2025-03-16  
+                      NA's   :6279                             
+     性別              年齡層            居住縣市           居住鄉鎮        
+ Length:107312      Length:107312      Length:107312      Length:107312     
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+   居住村里          最小統計區        最小統計區中心點X 最小統計區中心點Y
+ Length:107312      Length:107312      Min.   :118.3     Min.   :21.93    
+ Class :character   Class :character   1st Qu.:120.2     1st Qu.:22.63    
+ Mode  :character   Mode  :character   Median :120.3     Median :22.96    
+                                       Mean   :120.3     Mean   :22.91    
+                                       3rd Qu.:120.3     3rd Qu.:23.00    
+                                       Max.   :122.0     Max.   :26.16    
+                                       NA's   :789       NA's   :789      
+  一級統計區         二級統計區          感染縣市           感染鄉鎮        
+ Length:107312      Length:107312      Length:107312      Length:107312     
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+   感染村里         是否境外移入         感染國家           確定病例數
+ Length:107312      Length:107312      Length:107312      Min.   :1   
+ Class :character   Class :character   Class :character   1st Qu.:1   
+ Mode  :character   Mode  :character   Mode  :character   Median :1   
+                                                          Mean   :1   
+                                                          3rd Qu.:1   
+                                                          Max.   :2   
+                                                                      
+ 居住村里代碼       感染村里代碼          血清型          內政部居住縣市代碼
+ Length:107312      Length:107312      Length:107312      Min.   :   63.0   
+ Class :character   Class :character   Class :character   1st Qu.:   64.0   
+ Mode  :character   Mode  :character   Mode  :character   Median :   67.0   
+                                                          Mean   :  546.3   
+                                                          3rd Qu.:   67.0   
+                                                          Max.   :10020.0   
+                                                          NA's   :476       
+ 內政部居住鄉鎮代碼 內政部感染縣市代碼 內政部感染鄉鎮代碼
+ Min.   : 900701    Min.   :   63      Min.   :1000202   
+ 1st Qu.:6400700    1st Qu.:   64      1st Qu.:6400700   
+ Median :6401800    Median :   66      Median :6401600   
+ Mean   :6281126    Mean   :  359      Mean   :6384118   
+ 3rd Qu.:6703300    3rd Qu.:   67      3rd Qu.:6703300   
+ Max.   :6801200    Max.   :10020      Max.   :6801000   
+ NA's   :476        NA's   :19108      NA's   :19108     </code></pre>
+</div>
+</div>
+<p>Column names are translated to English.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dengue_daily) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Onset_Date"</span>, <span class="st">"Case_Classification_Date"</span>, <span class="st">"Reporting_Date"</span>, <span class="st">"Gender"</span>, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Age_Group"</span>, <span class="st">"Residential_County_City"</span>, <span class="st">"Residential_Town_District"</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Residential_Village"</span>, <span class="st">"Smallest_Statistical_Area"</span>, <span class="st">"X_coord"</span>, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Y_coord"</span>, <span class="st">"Primary_Statistical_Area"</span>, <span class="st">"Secondary_Statistical_Area"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Infection_County_City"</span>, <span class="st">"Infection_Town_District"</span>, <span class="st">"Infection_Village"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Imported_Case"</span>, <span class="st">"Infection_Country"</span>, <span class="st">"Confirmed_Cases"</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Residential_Village_Code"</span>, <span class="st">"Infection_Village_Code"</span>, <span class="st">"Serotype"</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"MOI_Residential_County_Code"</span>, <span class="st">"MOI_Residential_Town_Code"</span>, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"MOI_Infection_County_Code"</span>, <span class="st">"MOI_Infection_Town_Code"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>translate values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dengue_daily <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(Residential_Town_District)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 352 × 1
+   Residential_Town_District
+   &lt;chr&gt;                    
+ 1 屏東市                   
+ 2 東港鎮                   
+ 3 宜蘭市                   
+ 4 苓雅區                   
+ 5 五結鄉                   
+ 6 蘆竹區                   
+ 7 新店區                   
+ 8 北投區                   
+ 9 南區                     
+10 楠梓區                   
+# ℹ 342 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dengue_daily %&gt;% distinct(Residential_County_City_t)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dengue_daily <span class="ot">&lt;-</span> dengue_daily <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Residential_County_City_t =</span> <span class="fu">recode</span>(Residential_County_City,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"屏東縣"</span> <span class="ot">=</span> <span class="st">"Pingtung County"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"宜蘭縣"</span> <span class="ot">=</span> <span class="st">"Yilan County"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"高雄市"</span> <span class="ot">=</span> <span class="st">"Kaohsiung City"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"桃園市"</span> <span class="ot">=</span> <span class="st">"Taoyuan City"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"新北市"</span> <span class="ot">=</span> <span class="st">"New Taipei City"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"台北市"</span> <span class="ot">=</span> <span class="st">"Taipei City"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"台南市"</span> <span class="ot">=</span> <span class="st">"Tainan City"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"新竹縣"</span> <span class="ot">=</span> <span class="st">"Hsinchu County"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"南投縣"</span> <span class="ot">=</span> <span class="st">"Nantou County"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"台中市"</span> <span class="ot">=</span> <span class="st">"Taichung City"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"新竹市"</span> <span class="ot">=</span> <span class="st">"Hsinchu City"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"雲林縣"</span> <span class="ot">=</span> <span class="st">"Yunlin County"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"彰化縣"</span> <span class="ot">=</span> <span class="st">"Changhua County"</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"花蓮縣"</span> <span class="ot">=</span> <span class="st">"Hualien County"</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"台東縣"</span> <span class="ot">=</span> <span class="st">"Taitung County"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"嘉義縣"</span> <span class="ot">=</span> <span class="st">"Chiayi County"</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"嘉義市"</span> <span class="ot">=</span> <span class="st">"Chiayi City"</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"基隆市"</span> <span class="ot">=</span> <span class="st">"Keelung City"</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"苗栗縣"</span> <span class="ot">=</span> <span class="st">"Miaoli County"</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"澎湖縣"</span> <span class="ot">=</span> <span class="st">"Penghu County"</span>,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"連江縣"</span> <span class="ot">=</span> <span class="st">"Lianjiang County"</span>,</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"金門縣"</span> <span class="ot">=</span> <span class="st">"Kinmen County"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>

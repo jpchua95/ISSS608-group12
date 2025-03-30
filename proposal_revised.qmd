@@ -1,0 +1,86 @@
+---
+title: "Project Proposal (Revised)"
+author: "Jia Peng Chua | Zanelle Lee Wenfang"
+date-modified: "last-modified"
+execute:
+    echo: true
+    eval: true
+    warning: false
+    freeze: true
+---
+
+# Motivation
+
+Dengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 ([World Health Organisation, 2023](https://www.who.int/emergencies/disease-outbreak-news/item/2023-DON498)). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.
+
+Our project aims to:
+
+-   Develop interactive visualizations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan
+
+-   Perform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models
+
+-   Conduct correlation analysis of dengue cases with external factors
+
+# Data Source
+
+For this project, the [Taiwan dengue cases 1998-2024 dataset](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) and the [historical map data of Taiwan's villages](https://data.gov.tw/en/datasets/130549?p=1&size=10&s=_score_desc&rct=249) will be used.
+
+The dataset is retrieved from [Taiwan Centers for Disease Control](https://www.cdc.gov.tw/En) and [DATA.GOV.TW](https://data.gov.tw/en) respectively.
+
+# Problems / Issues the project will address
+
+Dengue cases often fluctuate due to seasonal changes. Our project aims to identify key drivers of dengue outbreaks and raise public awareness.
+
+Additionally, by leveraging time series forecasting models, we can determine the most suitable model for predicting dengue outbreaks. This enables stakeholders to take proactive rather than reactive measures in response to potential outbreaks.
+
+# Relevant Related Work
+
+On Kaggle, a basic EDA, correlation analysis and predictive modelling have been performed using this dataset:
+
+-   [Exploring Dengue Fever Cases in Taiwan: A Data-Driven Approach](https://www.kaggle.com/code/devraai/dengue-fever-analysis-and-prediction-in-taiwan)
+
+We also identified 2 research papers related to the study of dengue cases that could potentially be useful for our project:
+
+-   [Prediction of annual dengue incidence by hydro-climatic extremes for southern Taiwan](https://link.springer.com/article/10.1007/s00484-018-01659-w)
+
+-   [Temporal patterns of dengue epidemics: The case of recent outbreaks in Kaohsiung](https://www.sciencedirect.com/science/article/pii/S1995764517301244)
+
+# Proposed Approach
+
+1.  Data preparation
+
+    -   Load datasets of dengue cases since 1998 and the historical map data
+
+2.  Exploratory Data Analysis (EDA)
+
+    -   Trend of dengue cases over the years and identify outbreaks
+
+    -   Trend of dengue cases by various factors
+
+    -   Geospatial distribution of dengue cases across Taiwan
+
+3.  Confirmatory Data Analysis (CDA)
+
+    -   Does certain age group have significantly higher dengue cases compared to others?
+
+    -   How do factors such as age, gender, imported cases, serotype and geographic distribution influence the number of dengue cases?
+
+4.  Time series analysis
+
+    -   Time-series analysis and forecasting
+
+    -   Model comparison
+
+5.  Time series forecasting
+
+6.  Shiny dashboard for interactive visualization
+
+The group will be working on tasks 1-4 together and will split up to work on tasks 5-8.
+
+# Possible Ideas for Shiny Dashboard
+
+![](Proposal/Shiny proto 1.jpg)
+
+![](Proposal/Shiny proto 2.jpg)
+
+![](Proposal/Shiny proto 3.jpg)

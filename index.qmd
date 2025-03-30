@@ -4,7 +4,21 @@
 
 # Taiwan Dengue Cases Analysis
 
-Dengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 ([World Health Organisation, 2023](https://www.who.int/emergencies/disease-outbreak-news/item/2023-DON498)). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.
+## Introduction
+
+Dengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 ([World Health Organisation, 2023](https://www.who.int/emergencies/disease-outbreak-news/item/2023-DON498)). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore.
+
+## Imported Cases as the Primary Cause of Outbreaks
+
+Several studies highlight the impact of imported dengue cases on local outbreaks in non-endemic regions such as Taiwan. Reports from the Taiwan Centers for Disease Control indicate that Taiwan has historically experienced dengue outbreaks despite not having endemic transmission. Imported cases, particularly from Southeast Asia, have been identified as the primary cause of local outbreaks.
+
+A study published in PubMed Central supports this claim, stating that continuous importation of Dengue Virus (DENV) strains from neighboring countries remains the major driver of dengue epidemics in Taiwan.[@yung2015] In 2019, Taiwan reported 540 imported cases, making local containment more challenging. The COVID-19 pandemic (2020-2022) led to a temporary decline in imported cases due to strict border controls, resulting in fewer local outbreaks. However, after the easing of restrictions in 2023, there was a surge of imported cases, contributing to a major outbreak of local cases.[@chiu2024]
+
+## Understanding the Dengue Transmission Dynamics
+
+Dengue Virus (DENV) consists of 4 serotypes - DEN-1 to DEN-4. These are primarily transmitted by Aedes aegypti and Aedes albopictus mosquitoes. While climate conditions and urbanization contribute to the local spread of dengue, the introduction of infected travelers plays a crucial role in initiating outbreaks. Imported cases introduce new viral strains into non-endemic areas, providing a source for further transmission if competent mosquito vectors are present.[@yung2015]
+
+## Objectives
 
 Our project aims to:
 
@@ -14,12 +28,30 @@ Our project aims to:
 
 -   Conduct correlation analysis of dengue cases with external factors
 
+Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.
+
 # Meet The Team
 
 [**Zanelle Lee Wenfang**](https://www.linkedin.com/in/zanellelee/)
+
+Master of IT in Business (Analytics Track)
+
+Singapore Management University
 
 ![](zanelle.jpeg){width="317"}
 
 [**Chua Jia Peng**](https://www.linkedin.com/in/chuajp/)
 
+Master of IT in Business (Analytics Track)
+
+Singapore Management University
+
 ![](Corporate%20headshot%202022.jpg){width="264"}
+
+### [**Professor Kam Tin Seong**](https://faculty.smu.edu.sg/profile/kam-tin-seong-486)
+
+Associate Professor of Information Systems (Practice)
+
+Singapore Management University
+
+![](Prof photo.jpg){width="282"}

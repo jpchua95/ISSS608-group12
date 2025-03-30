@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jia Peng Chua | Zanelle Lee Wenfang">
 
-<title>ISSS608 Group 12</title>
+<title>Project Proposal (Revised) – ISSS608 Group 12</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -123,29 +124,10 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Analysis</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-analysis">    
-        <li>
-    <a class="dropdown-item" href="./data_preparation.html">
- <span class="dropdown-text">Data Preparation</span></a>
+  <li class="nav-item">
+    <a class="nav-link" href="./data_preparation_ref.qmd"> 
+<span class="menu-text">Data Preparation</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./eda.qmd">
- <span class="dropdown-text">Exploratory Data Analysis (EDA)</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./cda.qmd">
- <span class="dropdown-text">Confirmatory Data Analysis (CDA)</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./time_series.html">
- <span class="dropdown-text">Time Series Analysis</span></a>
-  </li>  
-    </ul>
-  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -162,73 +144,116 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#taiwan-dengue-cases-analysis" id="toc-taiwan-dengue-cases-analysis" class="nav-link active" data-scroll-target="#taiwan-dengue-cases-analysis">Taiwan Dengue Cases Analysis</a>
-  <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#imported-cases-as-the-primary-cause-of-outbreaks" id="toc-imported-cases-as-the-primary-cause-of-outbreaks" class="nav-link" data-scroll-target="#imported-cases-as-the-primary-cause-of-outbreaks">Imported Cases as the Primary Cause of Outbreaks</a></li>
-  <li><a href="#understanding-the-dengue-transmission-dynamics" id="toc-understanding-the-dengue-transmission-dynamics" class="nav-link" data-scroll-target="#understanding-the-dengue-transmission-dynamics">Understanding the Dengue Transmission Dynamics</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
-  </ul></li>
-  <li><a href="#meet-the-team" id="toc-meet-the-team" class="nav-link" data-scroll-target="#meet-the-team">Meet The Team</a>
-  <ul class="collapse">
-  <li><a href="#professor-kam-tin-seong" id="toc-professor-kam-tin-seong" class="nav-link" data-scroll-target="#professor-kam-tin-seong"><strong>Professor Kam Tin Seong</strong></a></li>
-  </ul></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a></li>
+  <li><a href="#problems-issues-the-project-will-address" id="toc-problems-issues-the-project-will-address" class="nav-link" data-scroll-target="#problems-issues-the-project-will-address">Problems / Issues the project will address</a></li>
+  <li><a href="#relevant-related-work" id="toc-relevant-related-work" class="nav-link" data-scroll-target="#relevant-related-work">Relevant Related Work</a></li>
+  <li><a href="#proposed-approach" id="toc-proposed-approach" class="nav-link" data-scroll-target="#proposed-approach">Proposed Approach</a></li>
+  <li><a href="#possible-ideas-for-shiny-dashboard" id="toc-possible-ideas-for-shiny-dashboard" class="nav-link" data-scroll-target="#possible-ideas-for-shiny-dashboard">Possible Ideas for Shiny Dashboard</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
 
-
-
-
-<div style="text-align: center">
-<p><strong>Hello! We are Group 12, nice to meet you 😊</strong></p>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Project Proposal (Revised)</h1>
 </div>
-<section id="taiwan-dengue-cases-analysis" class="level1">
-<h1>Taiwan Dengue Cases Analysis</h1>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Dengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 (<a href="https://www.who.int/emergencies/disease-outbreak-news/item/2023-DON498">World Health Organisation, 2023</a>). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore.</p>
-</section>
-<section id="imported-cases-as-the-primary-cause-of-outbreaks" class="level2">
-<h2 class="anchored" data-anchor-id="imported-cases-as-the-primary-cause-of-outbreaks">Imported Cases as the Primary Cause of Outbreaks</h2>
-<p>Several studies highlight the impact of imported dengue cases on local outbreaks in non-endemic regions such as Taiwan. Reports from the Taiwan Centers for Disease Control indicate that Taiwan has historically experienced dengue outbreaks despite not having endemic transmission. Imported cases, particularly from Southeast Asia, have been identified as the primary cause of local outbreaks.</p>
-<p>A study published in PubMed Central supports this claim, stating that continuous importation of Dengue Virus (DENV) strains from neighboring countries remains the major driver of dengue epidemics in Taiwan.<span class="citation" data-cites="yung2015">[@yung2015]</span> In 2019, Taiwan reported 540 imported cases, making local containment more challenging. The COVID-19 pandemic (2020-2022) led to a temporary decline in imported cases due to strict border controls, resulting in fewer local outbreaks. However, after the easing of restrictions in 2023, there was a surge of imported cases, contributing to a major outbreak of local cases.<span class="citation" data-cites="chiu2024">[@chiu2024]</span></p>
-</section>
-<section id="understanding-the-dengue-transmission-dynamics" class="level2">
-<h2 class="anchored" data-anchor-id="understanding-the-dengue-transmission-dynamics">Understanding the Dengue Transmission Dynamics</h2>
-<p>Dengue Virus (DENV) consists of 4 serotypes - DEN-1 to DEN-4. These are primarily transmitted by Aedes aegypti and Aedes albopictus mosquitoes. While climate conditions and urbanization contribute to the local spread of dengue, the introduction of infected travelers plays a crucial role in initiating outbreaks. Imported cases introduce new viral strains into non-endemic areas, providing a source for further transmission if competent mosquito vectors are present.<span class="citation" data-cites="yung2015">[@yung2015]</span></p>
-</section>
-<section id="objectives" class="level2">
-<h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jia Peng Chua | Zanelle Lee Wenfang </p>
+          </div>
+  </div>
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">March 30, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="motivation" class="level1">
+<h1>Motivation</h1>
+<p>Dengue fever has been a pressing public health concern and was documented to have a ten-fold surge worldwide from 2000 to 2019 (<a href="https://www.who.int/emergencies/disease-outbreak-news/item/2023-DON498">World Health Organisation, 2023</a>). It is spread by mosquitoes and are generally more common tropical regions, including places such as Taiwan and Singapore. Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.</p>
 <p>Our project aims to:</p>
 <ul>
 <li><p>Develop interactive visualizations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan</p></li>
 <li><p>Perform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models</p></li>
 <li><p>Conduct correlation analysis of dengue cases with external factors</p></li>
 </ul>
-<p>Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.</p>
 </section>
+<section id="data-source" class="level1">
+<h1>Data Source</h1>
+<p>For this project, the <a href="https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998">Taiwan dengue cases 1998-2024 dataset</a> and the <a href="https://data.gov.tw/en/datasets/130549?p=1&amp;size=10&amp;s=_score_desc&amp;rct=249">historical map data of Taiwan’s villages</a> will be used.</p>
+<p>The dataset is retrieved from <a href="https://www.cdc.gov.tw/En">Taiwan Centers for Disease Control</a> and <a href="https://data.gov.tw/en">DATA.GOV.TW</a> respectively.</p>
 </section>
-<section id="meet-the-team" class="level1">
-<h1>Meet The Team</h1>
-<p><a href="https://www.linkedin.com/in/zanellelee/"><strong>Zanelle Lee Wenfang</strong></a></p>
-<p>Master of IT in Business (Analytics Track)</p>
-<p>Singapore Management University</p>
-<p><img src="zanelle.jpeg" class="img-fluid" width="317"></p>
-<p><a href="https://www.linkedin.com/in/chuajp/"><strong>Chua Jia Peng</strong></a></p>
-<p>Master of IT in Business (Analytics Track)</p>
-<p>Singapore Management University</p>
-<p><img src="Corporate headshot 2022.jpg" class="img-fluid" width="264"></p>
-<section id="professor-kam-tin-seong" class="level3">
-<h3 class="anchored" data-anchor-id="professor-kam-tin-seong"><a href="https://faculty.smu.edu.sg/profile/kam-tin-seong-486"><strong>Professor Kam Tin Seong</strong></a></h3>
-<p>Associate Professor of Information Systems (Practice)</p>
-<p>Singapore Management University</p>
-<p><img src="Prof photo.jpg" class="img-fluid" width="282"></p>
+<section id="problems-issues-the-project-will-address" class="level1">
+<h1>Problems / Issues the project will address</h1>
+<p>Dengue cases often fluctuate due to seasonal changes. Our project aims to identify key drivers of dengue outbreaks and raise public awareness.</p>
+<p>Additionally, by leveraging time series forecasting models, we can determine the most suitable model for predicting dengue outbreaks. This enables stakeholders to take proactive rather than reactive measures in response to potential outbreaks.</p>
+</section>
+<section id="relevant-related-work" class="level1">
+<h1>Relevant Related Work</h1>
+<p>On Kaggle, a basic EDA, correlation analysis and predictive modelling have been performed using this dataset:</p>
+<ul>
+<li><a href="https://www.kaggle.com/code/devraai/dengue-fever-analysis-and-prediction-in-taiwan">Exploring Dengue Fever Cases in Taiwan: A Data-Driven Approach</a></li>
+</ul>
+<p>We also identified 2 research papers related to the study of dengue cases that could potentially be useful for our project:</p>
+<ul>
+<li><p><a href="https://link.springer.com/article/10.1007/s00484-018-01659-w">Prediction of annual dengue incidence by hydro-climatic extremes for southern Taiwan</a></p></li>
+<li><p><a href="https://www.sciencedirect.com/science/article/pii/S1995764517301244">Temporal patterns of dengue epidemics: The case of recent outbreaks in Kaohsiung</a></p></li>
+</ul>
+</section>
+<section id="proposed-approach" class="level1">
+<h1>Proposed Approach</h1>
+<ol type="1">
+<li><p>Data preparation</p>
+<ul>
+<li>Load datasets of dengue cases since 1998 and the historical map data</li>
+</ul></li>
+<li><p>Exploratory Data Analysis (EDA)</p>
+<ul>
+<li><p>Trend of dengue cases over the years and identify outbreaks</p></li>
+<li><p>Trend of dengue cases by various factors</p></li>
+<li><p>Geospatial distribution of dengue cases across Taiwan</p></li>
+</ul></li>
+<li><p>Confirmatory Data Analysis (CDA)</p>
+<ul>
+<li><p>Does certain age group have significantly higher dengue cases compared to others?</p></li>
+<li><p>How do factors such as age, gender, imported cases, serotype and geographic distribution influence the number of dengue cases?</p></li>
+</ul></li>
+<li><p>Time series analysis</p>
+<ul>
+<li><p>Time-series analysis and forecasting</p></li>
+<li><p>Model comparison</p></li>
+</ul></li>
+<li><p>Time series forecasting</p></li>
+<li><p>Shiny dashboard for interactive visualization</p></li>
+</ol>
+<p>The group will be working on tasks 1-4 together and will split up to work on tasks 5-8.</p>
+</section>
+<section id="possible-ideas-for-shiny-dashboard" class="level1">
+<h1>Possible Ideas for Shiny Dashboard</h1>
+<p><img src="Proposal/Shiny proto 1.jpg" class="img-fluid"></p>
+<p><img src="Proposal/Shiny proto 2.jpg" class="img-fluid"></p>
+<p><img src="Proposal/Shiny proto 3.jpg" class="img-fluid"></p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

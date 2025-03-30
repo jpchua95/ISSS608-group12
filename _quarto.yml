@@ -9,7 +9,9 @@ website:
         text: Home
       - text: Documentations
         menu:
-        - text: Project Proposal
+        - text: Project Proposal (Revised)
+          href: proposal_revised.qmd
+        - text: Project Proposal (Initial)
           href: proposal.qmd
         - text: Meeting Minutes 1
           href: Minutes/meeting_minutes_1.html
@@ -19,8 +21,16 @@ website:
           href: Minutes/meeting_minutes_3.html
         - text: Meeting Minutes 4
           href: Minutes/meeting_minutes_4.html
-      - href: data_preparation_ref.qmd
-        text: Data Preparation
+      - text: Analysis
+        menu:
+        - text: Data Preparation
+          href: data_preparation.qmd
+        - text: Exploratory Data Analysis (EDA)
+          href: eda.qmd
+        - text: Confirmatory Data Analysis (CDA)
+          href: cda.qmd
+        - text: Time Series Analysis 
+          href: time_series.qmd
 
 format:
   html:
