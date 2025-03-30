@@ -1,5 +1,6 @@
 /.quarto/
 .Rproj.user
 knit.md
+data_preparation.knit.md
 
 data/
