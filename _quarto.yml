@@ -24,7 +24,7 @@ website:
       - text: Analysis
         menu:
         - text: Data Preparation
-          href: data_prep.qmd
+          href: data_preparation.qmd
         - text: Exploratory Data Analysis (EDA)
           href: eda.qmd
         - text: Confirmatory Data Analysis (CDA)
