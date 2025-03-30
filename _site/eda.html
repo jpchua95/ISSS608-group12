@@ -8,7 +8,7 @@
 
 <meta name="author" content="Jia Peng Chua | Zanelle Lee Wenfang">
 
-<title>Minutes of Meeting 3 – ISSS608 Group 12</title>
+<title>Exploratory Data Analysis (EDA) – ISSS608 Group 12</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,22 +24,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bd8cb2610f6c2810c4bc87234a365cf8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bd8cb2610f6c2810c4bc87234a365cf8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">ISSS608 Group 12</span>
     </a>
   </div>
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -99,27 +99,27 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-documentations">    
         <li>
-    <a class="dropdown-item" href="../proposal_revised.html">
+    <a class="dropdown-item" href="./proposal_revised.html">
  <span class="dropdown-text">Project Proposal (Revised)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../proposal.html">
+    <a class="dropdown-item" href="./proposal.html">
  <span class="dropdown-text">Project Proposal (Initial)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Minutes/meeting_minutes_1.html">
+    <a class="dropdown-item" href="./Minutes/meeting_minutes_1.html">
  <span class="dropdown-text">Meeting Minutes 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Minutes/meeting_minutes_2.html">
+    <a class="dropdown-item" href="./Minutes/meeting_minutes_2.html">
  <span class="dropdown-text">Meeting Minutes 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Minutes/meeting_minutes_3.html">
+    <a class="dropdown-item" href="./Minutes/meeting_minutes_3.html">
  <span class="dropdown-text">Meeting Minutes 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Minutes/meeting_minutes_4.html">
+    <a class="dropdown-item" href="./Minutes/meeting_minutes_4.html">
  <span class="dropdown-text">Meeting Minutes 4</span></a>
   </li>  
     </ul>
@@ -130,19 +130,19 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-analysis">    
         <li>
-    <a class="dropdown-item" href="../data_preparation.html">
+    <a class="dropdown-item" href="./data_preparation.html">
  <span class="dropdown-text">Data Preparation</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../eda.html">
+    <a class="dropdown-item" href="./eda.html">
  <span class="dropdown-text">Exploratory Data Analysis (EDA)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../cda.qmd">
+    <a class="dropdown-item" href="./cda.qmd">
  <span class="dropdown-text">Confirmatory Data Analysis (CDA)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../time_series.html">
+    <a class="dropdown-item" href="./time_series.html">
  <span class="dropdown-text">Time Series Analysis</span></a>
   </li>  
     </ul>
@@ -158,32 +158,15 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#date" id="toc-date" class="nav-link active" data-scroll-target="#date">Date</a></li>
-  <li><a href="#time" id="toc-time" class="nav-link" data-scroll-target="#time">Time</a></li>
-  <li><a href="#venue" id="toc-venue" class="nav-link" data-scroll-target="#venue">Venue</a></li>
-  <li><a href="#meeting-attendance" id="toc-meeting-attendance" class="nav-link" data-scroll-target="#meeting-attendance">Meeting Attendance</a></li>
-  <li><a href="#issuesdiscussions" id="toc-issuesdiscussions" class="nav-link" data-scroll-target="#issuesdiscussions">Issues/Discussions</a>
-  <ul class="collapse">
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a></li>
-  <li><a href="#review-of-geospatial-knowledge-needed" id="toc-review-of-geospatial-knowledge-needed" class="nav-link" data-scroll-target="#review-of-geospatial-knowledge-needed">Review of geospatial knowledge needed</a></li>
-  <li><a href="#actions-to-be-done-on-the-data" id="toc-actions-to-be-done-on-the-data" class="nav-link" data-scroll-target="#actions-to-be-done-on-the-data">Actions to be done on the data</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  <li><a href="#items-to-discuss-for-consultation" id="toc-items-to-discuss-for-consultation" class="nav-link" data-scroll-target="#items-to-discuss-for-consultation">Items to Discuss for Consultation</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Minutes of Meeting 3</h1>
+<h1 class="title">Exploratory Data Analysis (EDA)</h1>
 </div>
 
 
@@ -201,7 +184,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">March 18, 2025</p>
+      <p class="date-modified">March 30, 2025</p>
     </div>
   </div>
     
@@ -212,68 +195,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="date" class="level2">
-<h2 class="anchored" data-anchor-id="date">Date</h2>
-<p>1 MARCH 2025</p>
-</section>
-<section id="time" class="level2">
-<h2 class="anchored" data-anchor-id="time">Time</h2>
-<p>9.30pm – 11.15pm</p>
-</section>
-<section id="venue" class="level2">
-<h2 class="anchored" data-anchor-id="venue">Venue</h2>
-<p>Virtual (Teams)</p>
-</section>
-<section id="meeting-attendance" class="level2">
-<h2 class="anchored" data-anchor-id="meeting-attendance">Meeting Attendance</h2>
-<ul>
-<li><p>Chua Jia Peng</p></li>
-<li><p>Zanelle Lee Wenfang</p></li>
-</ul>
-</section>
-<section id="issuesdiscussions" class="level2">
-<h2 class="anchored" data-anchor-id="issuesdiscussions">Issues/Discussions</h2>
-<ol type="1">
-<li>The team discussed the next steps to be done following Prof Kam’s feedback on the proposal.</li>
-</ol>
-<section id="data-source" class="level3">
-<h3 class="anchored" data-anchor-id="data-source">Data Source</h3>
-<ol start="2" type="1">
-<li>Prof Kam suggested for the original dataset to be downloaded, instead of using the Kaggle’s version. Both team members tried to download the datasets given from the source link but only managed to download the <a href="https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998">Dengue_Daily.csv</a> file. An email was set to Prof Kam to request for his copy of the data sets instead.</li>
-</ol>
-</section>
-<section id="review-of-geospatial-knowledge-needed" class="level3">
-<h3 class="anchored" data-anchor-id="review-of-geospatial-knowledge-needed">Review of geospatial knowledge needed</h3>
-<ol start="3" type="1">
-<li>Prof Kam mentioned that more knowledge (not covered in class) would be required to complete the analysis of the chosen dataset. The notes from Geospatial Analysis were reviewed by both team members together. It was accepted that the additional information might be too much to be mastered within the remaining two weeks.</li>
-<li>Zanelle suggested that perhaps more work could be done with the data that did not involve the geospatial segment but realised that there might be limited columns to work with (age, gender, number of dengue cases).</li>
-<li>Jia Peng highlighted that there would also be significant effort required in the data wrangling segment before being able to be used for analysis. She would also try to get a head start on the preparation and cleaning of the data. It was agreed that a consultation with Prof Kam was required, and was set to be on 19 March, 8.30am-9.30am.</li>
-</ol>
-</section>
-<section id="actions-to-be-done-on-the-data" class="level3">
-<h3 class="anchored" data-anchor-id="actions-to-be-done-on-the-data">Actions to be done on the data</h3>
-<ol start="6" type="1">
-<li>The team members reviewed the proposal plan together. While pending Prof Kam’s advice for the feasibility of the project, Jia Peng suggested the team could split the analysis segment. She volunteered to attempt the correlation analysis, and for Zanelle to attempt the time series segment. Both segments could be completed without necessarily involving the geospatial segment of the dataset.</li>
-</ol>
-</section>
-<section id="conclusion" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
-<ol start="7" type="1">
-<li>The team has decided to perform data cleaning and some EDA individually before meeting with Prof Kam. Manual visual look through of the dataset will also allow the team to decide on the dataset to be filtered, if relevant.</li>
-<li>The team will reconvene on 19<sup>th</sup> March with Prof Kam.</li>
-</ol>
-</section>
-<section id="items-to-discuss-for-consultation" class="level3">
-<h3 class="anchored" data-anchor-id="items-to-discuss-for-consultation">Items to Discuss for Consultation</h3>
-<ol type="1">
-<li><p>Filtering away columns that have many empty values?</p></li>
-<li><p>Is it better to keep only the most recent 5-10 years data?</p></li>
-<li><p>Feasibility of using this dataset due to lack of geospatial analytics knowledge?</p></li>
-</ol>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
