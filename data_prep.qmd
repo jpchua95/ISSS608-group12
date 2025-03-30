@@ -9,7 +9,7 @@ execute:
     freeze: true
 ---
 
-# 1 Loading R Packages and Datasets
+# 1. Loading R Packages and Datasets
 
 ## 1.1 Loading R Packages
 
