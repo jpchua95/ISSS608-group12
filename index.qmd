@@ -54,4 +54,4 @@ Associate Professor of Information Systems (Practice)
 
 Singapore Management University
 
-![](Prof photo.jpg){width="282"}
+![](Prof%20photo.jpg){width="282"}

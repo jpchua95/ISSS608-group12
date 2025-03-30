@@ -79,8 +79,8 @@ The group will be working on tasks 1-4 together and will split up to work on tas
 
 # Possible Ideas for Shiny Dashboard
 
-![](Proposal/Shiny proto 1.jpg)
+![](Proposal/Shiny%20proto%201.jpg)
 
-![](Proposal/Shiny proto 2.jpg)
+![](Proposal/Shiny%20proto%202.jpg)
 
-![](Proposal/Shiny proto 3.jpg)
+![](Proposal/Shiny%20proto%203.jpg)

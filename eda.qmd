@@ -1,0 +1,10 @@
+---
+title: "Exploratory Data Analysis (EDA)"
+author: "Jia Peng Chua | Zanelle Lee Wenfang"
+date-modified: "last-modified"
+execute:
+    echo: true
+    eval: true
+    warning: false
+    freeze: true
+---
