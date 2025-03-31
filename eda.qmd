@@ -8,3 +8,206 @@ execute:
     warning: false
     freeze: true
 ---
+
+# 1. Getting Started
+
+## 1.1 Loading R Packages
+
+```{r}
+#| code-fold: true
+#| code-summary: "Loading R packages"
+pacman::p_load(tidyverse, plotly, sf, tmap, GGally, ggstatsplot, ggmosaic)
+```
+
+## 1.2 Importing Dengue Dataset
+
+```{r}
+#| code-fold: true
+#| code-summary: "Importing Dengue_Daily dataset"
+dengue_daily <- read_csv("data/dengue_daily_en.csv")
+
+summary(dengue_daily)
+```
+
+# 2. Exploratory Data Analysis (EDA)
+
+## 2.1 Distribution of Dengue Cases by Age Groups
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code"
+#| fig-width: 8
+dengue_daily_aggregated <- dengue_daily %>%
+  group_by(Age_Group, Residential_County_City, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+cases_by_age <- dengue_daily_aggregated %>%
+  plot_ly(x = ~Age_Group, 
+          y = ~Count, 
+          color = ~Residential_County_City,
+          text = ~Residential_County_City, 
+          hoverinfo = "text",
+          type = 'scatter',
+          mode = 'markers',
+          frame = ~Onset_Year) %>%
+  layout(
+    title = "Dengue Cases by Age Group",
+    xaxis = list(title = "Age Group"),
+    yaxis = list(title = "Count of Cases"),
+    showlegend = FALSE
+  )
+
+cases_by_age
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Distribution of Dengue Cases by Age Groups"
+ggplot(data = dengue_daily, aes(x = Age_Group)) +
+    geom_bar(color = "black", fill = "grey") +  
+    ggtitle("Distribution of Age Groups") +
+    xlab("Age Group") +
+    ylab("Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    geom_hline(yintercept = mean(table(dengue_daily$Age_Group)), 
+               linetype = "dashed", color = "red", size = 1)
+```
+
+We observe that the number of cases is relatively lower among individuals aged 0 to 19. In contrast, cases are above average for those aged 50 and above, with a noticeable spike among residents over 70 years old.
+
+## 2.2 Dengue Cases Over Time by County City
+
+Let's visualise the number of dengue cases over time by county city.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Dengue Cases Over Time by County City"
+#| fig-height: 10
+#| fig-width: 8
+dengue_aggregated <- dengue_daily %>%
+  group_by(Age_Group, Residential_County_City, Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+dengue_aggregated$Onset_Year <- as.factor(dengue_aggregated$Onset_Year)
+
+ggplot(dengue_aggregated, aes(x = Onset_Year, y = Count, fill = Age_Group)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ Residential_County_City, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Dengue Cases Over Time by County City",
+    x = "Year",
+    y = "Case Count",
+    fill = "Age Group"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+We noticed significant number of cases in Kaohsiung City and Tainan City, with significant spikes in cases in 2014, 2015 and 2023.
+
+## 2.3 Dengue Cases by Epidemiological week
+
+Let's visualise the dengue cases by epidemiological week.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Dengue Cases by Epidemiological week (Line Chart)"
+cases_by_epiweek <- dengue_daily %>%
+  group_by(Onset_Epiweek, Onset_Year) %>%
+  summarise(Count = n(), .groups = "drop")
+
+mean_cases <- mean(cases_by_epiweek$Count, na.rm = TRUE)
+
+ggplotly(ggplot(cases_by_epiweek, 
+                aes(x = Onset_Epiweek, y = Count, 
+                    color = Onset_Year, group = Onset_Year)) +
+             geom_line(size = 0.5) +  
+             geom_hline(yintercept = mean_cases, 
+                        linetype = "dashed", color = "red", size = 0.2)+
+             annotate("text", x = 10, y = mean_cases + 60, 
+                      label = paste("Mean:", round(mean_cases,1)), 
+                      color = "black") +
+             labs(
+                 title = "Dengue Cases by Epidemiological Week Over the Years",
+                 x = "Epidemiological Week",
+                 y = "Number of Cases",
+                 color = "Year"
+                 )
+         )
+```
+
+We observed an increase in cases starting around epidemiological week 32, with a decline from week 51 onwards. This trend was particularly noticeable in the years 2014, 2015, and 2023.
+
+The spike in 2023 aligns with the post-COVID-19 period when international travel resumed, leading to an influx of tourists visiting Taiwan, which may have contributed to the rise in cases.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Dengue Cases by Epidemiological week (Heatmap)"
+ggplotly(ggplot(cases_by_epiweek, 
+                aes(x = Onset_Epiweek, y = factor(Onset_Year), fill = Count)) +
+             geom_tile() + 
+             scale_fill_gradient(low = "white", high = "red") + 
+             labs(title = "Dengue Cases by Epiweek",
+                  x = "Epidemiological Week", y = "Year", fill = "Case Count") +
+             theme_minimal())
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Dengue Cases by Age Group and Epidemiological Week"
+#| fig-height: 10
+#| fig-width: 12
+ggplot(dengue_daily) +
+    geom_mosaic(aes(x = product(Onset_Epiweek), fill = Age_Group)) +
+    facet_wrap(~Residential_County_City) +
+    labs(title = "Dengue Cases by Age Group and Epidemiological Week") + 
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## 2.4 Imported vs Local Cases
+
+Let's visualise the trend for imported vs local cases.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Imported vs Local Cases by Epidemiological week"
+cases_by_imported_cases <- dengue_daily %>%
+  group_by(Onset_Epiweek, Imported_Case) %>%
+  summarize(Count = n(), .groups = "drop")
+
+ggplotly(ggplot(cases_by_imported_cases, 
+                aes(x = Onset_Epiweek, y = Count, color = Imported_Case, 
+                    group = Imported_Case)) +
+             geom_line() + 
+             geom_point() +   
+             labs(title = "Dengue Cases by Epidemiological Week (Imported vs Local)", 
+                  x = "Epidemiological Week", y = "Number of Cases",
+                  color = "Imported Case")
+)
+```
+
+We noticed that the local cases are significantly higher than imported cases from epidemiological week 25 to 51 and epidemiological week 1 to 3.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Dengue Cases by Year (Imported vs Local)"
+#| fig-height: 10
+#| fig-width: 8
+cases_by_year_facets <- dengue_daily %>%
+  group_by(Onset_Year, Imported_Case, Residential_County_City) %>%
+  summarize(Count = n(), .groups = "drop")
+
+cases_by_year_facets$Onset_Year <- as.factor(cases_by_year_facets$Onset_Year)
+
+ggplot(cases_by_year_facets, aes(x = Onset_Year, y = Count, color = Imported_Case, group = Imported_Case)) +
+  geom_line() + 
+  geom_point() +   
+  labs(title = "Dengue Cases by Year (Imported vs Local)", 
+       x = "Year", 
+       y = "Number of Cases",
+       color = "Imported Case") +
+  facet_wrap(~ Residential_County_City, scales = "free_y") + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
