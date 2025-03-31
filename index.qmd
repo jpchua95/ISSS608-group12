@@ -1,5 +1,7 @@
 ::: {style="text-align: center"}
-**Hello! We are Group 12, nice to meet you 😊**
+![](ChatGPT Image Mar 31, 2025, 08_06_37 PM.png){width="231"}
+
+**Hello! We are Buzzzz LightYear, nice to meet you 😊**
 :::
 
 # Taiwan Dengue Cases Analysis
