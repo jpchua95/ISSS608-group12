@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Buzzzz LightYears"
+  title: "Buzzzz LightYear"
   navbar:
     left:
       - href: index.qmd
