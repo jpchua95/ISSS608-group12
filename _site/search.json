@@ -249,7 +249,7 @@
     "href": "index.html",
     "title": "Taiwan Dengue Cases Analysis",
     "section": "",
-    "text": "Hello! We are team Buzzzz LightYear, nice to meet you 😊"
+    "text": "Hello! We are team Buzzzz LightYears, nice to meet you 😊"
   },
   {
     "objectID": "index.html#introduction",
@@ -263,7 +263,7 @@
     "href": "index.html#imported-cases-as-the-primary-cause-of-outbreaks",
     "title": "Taiwan Dengue Cases Analysis",
     "section": "Imported Cases as the Primary Cause of Outbreaks",
-    "text": "Imported Cases as the Primary Cause of Outbreaks\nSeveral studies highlight the impact of imported dengue cases on local outbreaks in non-endemic regions such as Taiwan. Reports from the Taiwan Centers for Disease Control indicate that Taiwan has historically experienced dengue outbreaks despite not having endemic transmission. Imported cases, particularly from Southeast Asia, have been identified as the primary cause of local outbreaks.\nA study published in PubMed Central supports this claim, stating that continuous importation of Dengue Virus (DENV) strains from neighboring countries remains the major driver of dengue epidemics in Taiwan.[@yung2015] In 2019, Taiwan reported 540 imported cases, making local containment more challenging. The COVID-19 pandemic (2020-2022) led to a temporary decline in imported cases due to strict border controls, resulting in fewer local outbreaks. However, after the easing of restrictions in 2023, there was a surge of imported cases, contributing to a major outbreak of local cases.[@chiu2024]"
+    "text": "Imported Cases as the Primary Cause of Outbreaks\nSeveral studies highlight the impact of imported dengue cases on local outbreaks in non-endemic regions such as Taiwan. Reports from the Taiwan Centers for Disease Control indicate that Taiwan has historically experienced dengue outbreaks despite not having endemic transmission. Imported cases, particularly from Southeast Asia, have been identified as the primary cause of local outbreaks.\nA study published in PubMed Central supports this claim, stating that continuous importation of Dengue Virus (DENV) strains from neighboring countries remains the major driver of dengue epidemics in Taiwan.[@yung2015] The COVID-19 pandemic (2020-2022) led to a temporary decline in imported cases due to strict border controls, resulting in fewer local outbreaks. However, after the easing of restrictions in 2023, there was a surge of imported cases, contributing to a major outbreak of local cases.[@chiu2024]"
   },
   {
     "objectID": "index.html#understanding-the-dengue-transmission-dynamics",
@@ -277,7 +277,7 @@
     "href": "index.html#objectives",
     "title": "Taiwan Dengue Cases Analysis",
     "section": "Objectives",
-    "text": "Objectives\nOur project aims to:\n\nDevelop interactive visualizations to illustrate the temporal trends in dengue cases across the years, seasons and geographic locations in Taiwan\nPerform time series forecasting to forecast future dengue cases based on past trends, and evaluate the accuracy of different forecasting models\nConduct correlation analysis of dengue cases with external factors\n\nTaiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences."
+    "text": "Objectives\nOur project aims to:\n\nDevelop interactive visualizations to illustrate the temporal trends in dengue cases across the years geographic locations in Taiwan\nConduct exploratory data analysis of dengue cases with relevant factors\nConduct association test analysis of dengue cases with factors such as gender, age groups and dengue serotypes\n\nTaiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences."
   },
   {
     "objectID": "Minutes/meeting_minutes_2.html",
