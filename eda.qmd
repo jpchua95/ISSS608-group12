@@ -11,7 +11,25 @@ execute:
 
 # 1. Getting Started
 
+In this section, we conduct exploratory data analysis of dengue cases with relevant factors.
+
 ## 1.1 Loading R Packages
+
+The following R packages will be required:
+
+-   `tidyverse`: Used for data manipulation, visualisation and analysis
+
+-   `plotly`: For plotting interactive statistical graphs
+
+-   `sf`: For analysing and visualising spatial data
+
+-   `tmap`: Create static and interactive thematic maps
+
+-   `GGally`: Provide additional visualisation functions
+
+-   `ggstatplot`: For integrating statistical analysis into visualisations
+
+-   `ggmosaic`: For visualisation of categorical data relationships and associations
 
 ```{r}
 #| code-fold: true
@@ -20,6 +38,8 @@ pacman::p_load(tidyverse, plotly, sf, tmap, GGally, ggstatsplot, ggmosaic)
 ```
 
 ## 1.2 Importing Dengue Dataset
+
+The code chunk below uses `read_csv()` of `readr` to import the `dengue_daily_en` dataset that was saved from the data preparation step into R environment.
 
 ```{r}
 #| code-fold: true
@@ -32,6 +52,8 @@ summary(dengue_daily)
 # 2. Overall EDA
 
 ## 2.1 Distribution of Dengue Cases by Age Groups
+
+First, we view the distribution of dengue cases by age groups over the years.
 
 ```{r}
 #| code-fold: true
@@ -60,6 +82,12 @@ cases_by_age <- dengue_daily_aggregated %>%
 cases_by_age
 ```
 
+Key observations:
+
+-   In 2002, 2014 and 2015, there was an increase in dengue cases across all age groups in Kaohsiung City.
+
+-   In 2023, dengue cases in Tainan City spiked across all age groups, showing an increasing trend from younger age groups to those aged 70 and above.
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Distribution of Dengue Cases by Age Groups"
@@ -74,7 +102,11 @@ ggplot(data = dengue_daily, aes(x = Age_Group)) +
                linetype = "dashed", color = "red", size = 1)
 ```
 
-We observe that the number of cases is relatively lower among individuals aged 0 to 19. In contrast, cases are above average for those aged 50 and above, with a noticeable spike among residents over 70 years old.
+Key observations:
+
+-   The number of cases is relatively lower among individuals aged 0 to 19.
+
+-   In contrast, cases are above average for those aged 50 and above, with a noticeable spike among residents over 70 years old.
 
 ## 2.2 Dengue Cases Over Time by County City
 
@@ -104,7 +136,11 @@ ggplot(dengue_aggregated, aes(x = Onset_Year, y = Count, fill = Age_Group)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-We noticed significant number of cases in Kaohsiung City and Tainan City, with significant spikes in cases in 2014, 2015 and 2023.
+Key observation:
+
+-   In general, there is an increasing trend of dengue cases from 1998 to 2024 across all counties.
+
+-   There is a significant number of cases in Kaohsiung City and Tainan City, with significant spikes in cases in 2014, 2015 and 2023.
 
 ## 2.3 Dengue Cases by Epidemiological week
 
@@ -137,10 +173,6 @@ ggplotly(ggplot(cases_by_epiweek,
          )
 ```
 
-We observed an increase in cases starting around epidemiological week 32, with a decline from week 51 onwards. This trend was particularly noticeable in the years 2014, 2015, and 2023.
-
-The spike in 2023 aligns with the post-COVID-19 period when international travel resumed, leading to an influx of tourists visiting Taiwan, which may have contributed to the rise in cases.
-
 ```{r}
 #| code-fold: true
 #| code-summary: "Dengue Cases by Epidemiological week (Heatmap)"
@@ -152,6 +184,14 @@ ggplotly(ggplot(cases_by_epiweek,
                   x = "Epidemiological Week", y = "Year", fill = "Case Count") +
              theme_minimal())
 ```
+
+Key observations:
+
+-   Dengue cases typically increases around epidemiological week 32 and declines around week 45 onwards.
+
+-   The cases spiked in 2014, 2015 and 2023.
+
+-   The 2023 spike coincided with the post-COVID-19 resumption of international travel, potentially contributing to the rise in cases due to increased tourist influx.
 
 ```{r}
 #| code-fold: true
@@ -187,8 +227,6 @@ ggplotly(ggplot(cases_by_imported_cases,
 )
 ```
 
-We noticed that the local cases are significantly higher than imported cases from epidemiological week 25 to 51 and epidemiological week 1 to 3.
-
 ```{r}
 #| code-fold: true
 #| code-summary: "Dengue Cases by Year (Imported vs Local)"
@@ -212,11 +250,19 @@ ggplot(cases_by_year_facets, aes(x = Onset_Year, y = Count, color = Imported_Cas
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+Key observations:
+
+-   The local cases are significantly higher than imported cases from epidemiological week 25 to 51 and epidemiological week 1 to 3.
+
+-   In counties like Miaoli County, Taichung City and Yilan County, there were more local cases than imported cases.
+
+-   In general, there is an increasing trend of imported cases in most counties.
+
 # 3. EDA of Outbreak Years
 
 ## 3.1 Identifying the Outbreak Years
 
-As we are focusing on the disease outbreak periods, we will first need to isolate the time period where this outbreak occurs. The data will also be studied by weeks, rather than days.
+In this section, we focus on the disease outbreak periods. We will first need to isolate the time period where this outbreak occurs. The data will also be studied by weeks, rather than days.
 
 ```{r}
 #| code-fold: true

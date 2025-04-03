@@ -28,7 +28,7 @@ Our project aims to:
 
 -   Conduct exploratory data analysis of dengue cases with relevant factors
 
--   Conduct association test analysis of dengue cases with factors such as gender, age groups and dengue serotypes
+-   Conduct confirmatory data analysis of dengue cases with factors such as gender, age groups and dengue serotypes
 
 Taiwan’s historical dengue cases data presents a good opportunity to analyze long-term trends and seasonal outbreaks. Useful insights can potentially be discovered to better understand and predict these incidences.
 

@@ -25,7 +25,9 @@ The following R packages will be required:
 
 -   `GGally`: Provide additional visualisation functions
 
--   `ggplot2`: For customisable plots
+-   `ggstatplot`: For integrating statistical analysis into visualisations
+
+-   `ggmosaic`: For visualisation of categorical data relationships and associations
 
 ```{r}
 #| code-fold: true
@@ -247,6 +249,22 @@ dengue_daily <- dengue_daily %>%
 ## 2.1 View Dataset Over the Years
 
 Let observe the dengue cases by age groups over the years.
+
+```{r}
+dengue_daily <- dengue_daily %>%
+  mutate(Onset_Date = ymd(Onset_Date)) %>%
+  mutate(Onset_Year = as.integer(year(Onset_Date)))
+
+group_by_year <- dengue_daily %>%
+  group_by(Onset_Year) %>%
+  summarize(Count = n(), .groups = "drop")
+
+ggplotly(ggplot(group_by_year, aes(x = Onset_Year, y = Count)) +
+             geom_line() +
+             labs(title = "Dengue Cases Across Years",
+                  x = "Year",
+                  y = "Count of Cases"))
+```
 
 ```{r}
 #| code-fold: true
