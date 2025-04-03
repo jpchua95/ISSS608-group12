@@ -34,7 +34,7 @@ Taiwan’s historical dengue cases data presents a good opportunity to analyze l
 
 # Meet The Team
 
-[**Zanelle Lee Wenfang**](https://www.linkedin.com/in/zanellelee/)
+### [**Zanelle Lee Wenfang**](https://www.linkedin.com/in/zanellelee/)
 
 Master of IT in Business (Analytics Track)
 
@@ -42,7 +42,7 @@ Singapore Management University
 
 ![](zanelle.jpeg){width="317"}
 
-[**Chua Jia Peng**](https://www.linkedin.com/in/chuajp/)
+### [**Chua Jia Peng**](https://www.linkedin.com/in/chuajp/)
 
 Master of IT in Business (Analytics Track)
 

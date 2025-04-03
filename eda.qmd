@@ -29,7 +29,7 @@ dengue_daily <- read_csv("data/dengue_daily_en.csv")
 summary(dengue_daily)
 ```
 
-# 2. Exploratory Data Analysis (EDA)
+# 2. Overall EDA
 
 ## 2.1 Distribution of Dengue Cases by Age Groups
 
@@ -210,4 +210,235 @@ ggplot(cases_by_year_facets, aes(x = Onset_Year, y = Count, color = Imported_Cas
   facet_wrap(~ Residential_County_City, scales = "free_y") + 
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# 3. EDA of Outbreak Years
+
+## 3.1 Identifying the Outbreak Years
+
+As we are focusing on the disease outbreak periods, we will first need to isolate the time period where this outbreak occurs. The data will also be studied by weeks, rather than days.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code for obtaining number of cases per week"
+
+dengue_daily$Onset_Date <- as.Date(dengue_daily$Onset_Date)
+
+weekly_cases <- dengue_daily %>%
+  mutate(week = floor_date(Onset_Date, "week")) %>%
+  group_by(week) %>%
+  summarise(cases = n())
+```
+
+There are 3 outbreak periods namely in 2014, 2015 and 2023. These will also be referred to as *Wave 1*, *Wave 2* and *Wave 3* interchangeably. The start and end dates of these outbreak periods and loaded into *wave1_start*, *wave1_end*, *wave2_start*, *wave2_end*, *wave3_start* and *wave3_end* respectively. The number of cases from the entire dataset is aggregated by weeks are plotted, with the 3 outbreak periods. The 3 outbreak periods are also highlighted.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code for plotting Weekly Dengue Cases"
+
+wave1_start <- as.Date("2014-05-11")
+wave1_end <- as.Date("2015-01-25")
+
+wave2_start <- as.Date("2015-05-24")
+wave2_end <- as.Date("2016-02-14")
+
+wave3_start <- as.Date("2023-05-07")
+wave3_end <- as.Date("2024-02-04")
+
+dengue_daily <- dengue_daily %>%
+  mutate(Wave = case_when(
+    Onset_Date >= wave1_start & Onset_Date <= wave1_end ~ "Wave 1",
+    Onset_Date >= wave2_start & Onset_Date <= wave2_end ~ "Wave 2",
+    Onset_Date >= wave3_start & Onset_Date <= wave3_end ~ "Wave 3",
+    TRUE ~ NA_character_
+  ))
+
+ggplot(weekly_cases, aes(x = week, y = cases)) +
+  geom_line(color = "black") +
+#wave1 reference  
+  geom_vline(xintercept = c(wave1_start, wave1_end), color = "skyblue4", linetype = "dashed") +
+  geom_rect(aes(xmin = wave1_start, xmax = wave1_end,
+                ymin = -Inf, ymax = Inf),
+            fill = "skyblue4", alpha = 0.008) +
+#wave2 reference
+  geom_vline(xintercept = c(wave2_start, wave2_end), color = "indianred", linetype = "dashed") +
+  geom_rect(aes(xmin = wave2_start, xmax = wave2_end,
+                ymin = -Inf, ymax = Inf),
+            fill = "indianred", alpha = 0.008) +
+#wave3 reference
+  geom_vline(xintercept = c(wave3_start, wave3_end), color = "olivedrab4", linetype = "dashed") +
+  geom_rect(aes(xmin = wave3_start, xmax = wave3_end,
+                ymin = -Inf, ymax = Inf),
+            fill = "olivedrab4", alpha = 0.008) +
+  
+  labs(title = "Weekly Dengue Cases", x = "Week", y = "Cases") +
+  theme_minimal()
+```
+
+The outbreak periods are then loaded into its respective variable - *wave1*, *wave2* and *wave3*.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code for obtaining outbreak periods"
+
+wave1 <- weekly_cases %>%
+  filter(week >= wave1_start & week <= wave1_end)
+
+wave2 <- weekly_cases %>%
+  filter(week >= wave2_start & week <= wave2_end)
+
+wave3 <- weekly_cases %>%
+  filter(week >= wave3_start & week <= wave3_end)
+```
+
+To properly compare the shape of the graph, the 3 waves will have to share the same axis. Since the outbreak periods occur almost in the same months in the 3 different years, we will plot the graphs according to months instead.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code for the 3 waves being plotted on same axis (Month)"
+
+wave1 <- wave1 %>% mutate(month_day = format(week, "%m-%d"), Outbreak_Year ="2014", aligned_date = if_else(month(week) <= 3,
+                           as.Date(paste0("2024-", month_day)),
+                           as.Date(paste0("2023-", month_day)))
+  )
+wave2 <- wave2 %>% mutate(month_day = format(week, "%m-%d"), Outbreak_Year ="2015", aligned_date = if_else(month(week) <= 3,
+                           as.Date(paste0("2024-", month_day)),
+                           as.Date(paste0("2023-", month_day)))
+  )
+wave3 <- wave3 %>% mutate(month_day = format(week, "%m-%d"), Outbreak_Year ="2023", aligned_date = if_else(month(week) <= 3,
+                           as.Date(paste0("2024-", month_day)),
+                           as.Date(paste0("2023-", month_day)))
+  )
+
+# Step 2: Combine all into one dataset
+all_waves <- bind_rows(wave1, wave2, wave3)
+
+# Step 3: Plot
+ggplot(all_waves, aes(x = aligned_date, y = cases, color = Outbreak_Year)) +
+  geom_line(size = 1) +
+  scale_x_date(date_labels = "%b",
+  breaks = seq(as.Date("2023-05-01"), as.Date("2024-03-01"), by = "1 month"),
+    limits = c(as.Date("2023-05-01"), as.Date("2024-03-28"))
+  ) +
+  labs(title = "Dengue Outbreak Comparison (2014, 2015, 2023)",
+       x = "Week", y = "Number of cases", color = "Year of Outbreak") +
+  scale_color_manual(values = c("2014" = "skyblue", 
+                                "2015" = "indianred", 
+                                "2023" = "olivedrab4")) +
+  theme_minimal()
+```
+
+## 3.2 Proportions in Outbreak Years
+
+To gain a better understanding of the dataset, we further study the ancillary data surrounding the cases during outbreak period.
+
+### 3.2.1. Gender
+
+The gender proportion is almost equal across both genders.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code plotting Gender proportion"
+
+
+dengue_daily %>% 
+  filter(!is.na(Wave)) %>%
+  group_by(Wave, Gender) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(Wave) %>%
+  mutate(prop = count / sum(count)) %>%
+  ggplot(aes(x = Wave, y = prop, fill = Gender)) +
+  geom_col(position = "fill") +
+  scale_x_discrete(labels = c(
+    "Wave 1" = "2014 Outbreak Wave",
+    "Wave 2" = "2015 Outbreak Wave",
+    "Wave 3" = "2023 Outbreak Wave"
+  )) +
+  labs(title = "Gender Proportion by Outbreak Year", y = "Proportion", x = "Year of Outbreak") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal() +
+    scale_fill_brewer(palette="Pastel1")
+```
+
+### 3.2.2. Imported Cases
+
+There are significantly more local cases than foreign ones during outbreak periods.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code plotting Imported Cases proportion"
+
+dengue_daily %>%
+  filter(!is.na(Wave)) %>%
+  group_by(Wave, Imported_Case) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(Wave) %>%
+  mutate(prop = count / sum(count)) %>%
+  ggplot(aes(x = Wave, y = prop, fill = Imported_Case)) +
+  geom_col(position = "fill") +
+  scale_x_discrete(labels = c(
+    "Wave 1" = "2014 Outbreak Wave",
+    "Wave 2" = "2015 Outbreak Wave",
+    "Wave 3" = "2023 Outbreak Wave"
+  )) +
+  labs(title = "Imported Case Proportion by Outbreak Year", y = "Proportion", x = "Outbreak Year") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal() +
+  scale_fill_brewer(palette="Pastel1")
+```
+
+### 3.2.3. Age Group
+
+Generally, there are more older people that are infected during outbreak periods.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code plotting Age Group proportion"
+
+dengue_daily %>%
+  filter(!is.na(Wave)) %>%
+  group_by(Wave, Age_Group) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(Wave) %>%
+  mutate(prop = count / sum(count)) %>%
+  ggplot(aes(x = Wave, y = prop, fill = Age_Group)) +
+  geom_col(position = "fill") +
+  scale_x_discrete(labels = c(
+    "Wave 1" = "2014 Outbreak Wave",
+    "Wave 2" = "2015 Outbreak Wave",
+    "Wave 3" = "2023 Outbreak Wave"
+  )) +
+  labs(title = "Age Group Proportion by Outbreak Year", y = "Proportion", x = "Outbreak Year") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal() +
+  scale_fill_manual(values = c("mistyrose", "darkcyan", "snow3", "orchid4", "royalblue", "burlywood2", "maroon", "cadetblue", "lightsalmon3", "lightpink1", "aquamarine4", "plum4", "indianred", "lightsalmon", "antiquewhite"))
+```
+
+### 3.2.4. Serotype
+
+There are many rows with NA values. However, the rows with values are all plotted, and it can be seen that the most common strains are Type 1 and Type 2.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show Code plotting Serotype proportion"
+
+
+dengue_daily %>%
+  filter(!is.na(Wave)) %>%
+  filter(!is.na(Serotype)) %>%
+  group_by(Wave, Serotype) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(Wave) %>%
+  mutate(prop = count / sum(count)) %>%
+  ggplot(aes(x = Wave, y = prop, fill = Serotype)) +
+  geom_col(position = "fill") +
+  scale_x_discrete(labels = c(
+    "Wave 1" = "2014 Outbreak Wave",
+    "Wave 2" = "2015 Outbreak Wave",
+    "Wave 3" = "2023 Outbreak Wave"
+  )) +
+  labs(title = "Serotype Proportion by Outbreak Year", y = "Proportion", x = "Outbreak Year") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal() +
+  scale_fill_brewer(palette="Pastel1")
 ```

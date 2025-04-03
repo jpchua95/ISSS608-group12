@@ -277,7 +277,7 @@ ggbetweenstats(
 
 Conclusion:
 
--   Since p-value is < 0.10, we reject the null hypothesis at 10% significance level.
+-   Since p-value is \< 0.10, we reject the null hypothesis at 10% significance level.
 
 -   This suggests that there is significant difference in the number of dengue cases between imported and local cases.
 
