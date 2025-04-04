@@ -36,7 +36,7 @@ website:
         - text: Shiny App
           href: https://jpchua.shinyapps.io/buzzzzlightyears/
         - text: User Guide
-          href: user_guide.qmd
+          href: https://buzzzzlightyear.netlify.app/#userguide
 
 format:
   html:
