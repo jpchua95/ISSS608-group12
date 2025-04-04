@@ -31,6 +31,12 @@ website:
           href: cda.qmd
         - text: Time Series Analysis 
           href: time_series.qmd
+      - text: Shiny App
+        menu:
+        - text: Shiny App
+          href: https://jpchua.shinyapps.io/buzzzzlightyears/
+        - text: User Guide
+          href: user_guide.qmd
 
 format:
   html:
