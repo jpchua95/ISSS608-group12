@@ -5,7 +5,7 @@ account: jpchua
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 14427627
-bundleId: 10056495
+bundleId: 10063795
 url: https://jpchua.shinyapps.io/buzzzzlightyears/
 version: 1
 asMultiple: FALSE

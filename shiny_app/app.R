@@ -5,6 +5,11 @@ dengue_daily_sf <- st_as_sf(dengue_daily,
                             coords = c("X_coord", "Y_coord"), 
                             crs = 3824)
 dengue_daily_outbreak <- read_csv("data/dengue_daily_outbreak.csv")
+wave1 <- read.csv("data/wave1.csv")
+wave2 <- read.csv("data/wave2.csv")
+wave3 <- read.csv("data/wave3.csv")
+
+tmap_mode("view")
 
 
 ui <- page_navbar(
@@ -109,8 +114,8 @@ ui <- page_navbar(
                                     card(
                                         card_header("Distribution over the Years"),
                                         card_body(
-                                            plotOutput("bar_chart") %>% withSpinner(color = "#70784d"),
-                                            plotOutput("line_chart") %>% withSpinner(color = "#70784d")
+                                            plotlyOutput("bar_chart") %>% withSpinner(color = "#70784d"),
+                                            plotlyOutput("line_chart") %>% withSpinner(color = "#70784d")
                                             )
                                         )
                                     )
@@ -144,6 +149,11 @@ ui <- page_navbar(
                                                         choices = c("Parametric" = "p", 
                                                                     "Non-parametric" = "np"),
                                                         selected = "Parametric"),
+                                            sliderInput("cda_test_year", "Year(s) to Compare:",
+                                                        min = min(dengue_daily_sf$Onset_Year),
+                                                        max = max(dengue_daily_sf$Onset_Year),
+                                                        value = c(min(dengue_daily_sf$Onset_Year), max(dengue_daily_sf$Onset_Year)),
+                                                        step = 1, animate = TRUE, sep = ""),
                                             actionButton(inputId = "run_cda_year",
                                                          label = "Run Test")
                                             
@@ -181,6 +191,11 @@ ui <- page_navbar(
                                                         choices = c("Parametric" = "p", 
                                                                     "Non-parametric" = "np"),
                                                         selected = "Parametric"),
+                                            sliderInput("cda_test_epiweek", "Epiweek(s) to Compare:",
+                                                        min = min(dengue_daily_sf$Onset_Epiweek),
+                                                        max = max(dengue_daily_sf$Onset_Epiweek),
+                                                        value = c(min(dengue_daily_sf$Onset_Epiweek), max(dengue_daily_sf$Onset_Epiweek)),
+                                                        step = 1, animate = TRUE, sep = ""),
                                             actionButton(inputId = "run_cda_epiweek",
                                                          label = "Run Test")
                                             
@@ -220,8 +235,7 @@ ui <- page_navbar(
                                                          label = "Run Test")
                                             )
                                             
-                                        )
-                                    ),
+                                        ),
                                     
                                     # CDA results
                                     card(
@@ -232,6 +246,7 @@ ui <- page_navbar(
                                     ),
                                 )
                             )
+                  )
                   )
               ),
     
@@ -286,13 +301,12 @@ ui <- page_navbar(
                                     card(
                                         card_header("Filter"),
                                         card_body(
-                                            
+                                            #selecting model
                                             pickerInput(
                                                 inputId = "model",
                                                 label = "Select Models",
                                                 choices = c("Week-based", "Cumulative Week-based", "Progress-based"),
-                                                multiple = FALSE,
-                                                options = list(`style` = "btn-success")
+                                                multiple = FALSE
                                             ),
                                             
                                             conditionalPanel(condition = "input.model == 'Week-based'", tagList(
@@ -312,7 +326,6 @@ ui <- page_navbar(
                                                     options = list(
                                                         `actions-box` = TRUE,
                                                         `selected-text-format` = "count > 2",
-                                                        `style` = "btn-success",
                                                         `live-search` = TRUE
                                                     )
                                                 ),
@@ -321,12 +334,12 @@ ui <- page_navbar(
                                                     inputId = "metric",
                                                     label = "Select Goodness of Fit Display(s)",
                                                     choices = c("AIC", "Residuals", "RMSE"),
-                                                    selected = c("AIC", "Residuals", "RMSE"),
                                                     multiple = TRUE,
-                                                    options = list(`actions-box` = TRUE, `style` = "btn-success")
+                                                    options = list(`actions-box` = TRUE)
                                                 )
                                             )),
                                             
+                                            # if choose cumulative
                                             conditionalPanel(condition = "input.model == 'Cumulative Week-based'", tagList(
                                                 pickerInput(
                                                     inputId = "curve",
@@ -344,7 +357,6 @@ ui <- page_navbar(
                                                     options = list(
                                                         `actions-box` = TRUE,
                                                         `selected-text-format` = "count > 2",
-                                                        `style` = "btn-success",
                                                         `live-search` = TRUE
                                                     )
                                                 ),
@@ -354,10 +366,11 @@ ui <- page_navbar(
                                                     label = "Select Goodness of Fit Display(s)",
                                                     choices = c("AIC", "Residuals", "RMSE"),
                                                     multiple = TRUE,
-                                                    options = list(`actions-box` = TRUE, `style` = "btn-success")
+                                                    options = list(`actions-box` = TRUE)
                                                 )
                                             )),
                                             
+                                            #choosing progress
                                             conditionalPanel(condition = "input.model == 'Progress-based'", tagList(
                                                 pickerInput(
                                                     inputId = "curve",
@@ -373,30 +386,27 @@ ui <- page_navbar(
                                                     options = list(
                                                         `actions-box` = TRUE,
                                                         `selected-text-format` = "count > 2",
-                                                        `style` = "btn-success",
                                                         `live-search` = TRUE
                                                     )
                                                 ),
                                                 pickerInput(
-                                                    inputId = "predict",
-                                                    label = "Select Outbreak to Predict",
-                                                    choices = c("2014 Outbreak", "2015 Outbreak", "2023 Outbreak"),
-                                                    multiple = FALSE,
-                                                    options = list(`style` = "btn-success")
+                                                  inputId = "predict",
+                                                  label = "Select Outbreak to Predict",
+                                                  choices = c("2014 Outbreak", "2015 Outbreak", "2023 Outbreak"),
+                                                  multiple = FALSE
                                                 )
                                             )),
                                             
+                                            # if choose polynomial
                                             conditionalPanel(
                                                 condition = "input.curve &&
-                       (input.curve.includes('Polynomial') || input.curve.includes('Cumulative Polynomial')) &&
-                       !input.curve.includes('Progress Polynomial')",
-                                                
+               (input.curve.includes('Polynomial') || input.curve.includes('Cumulative Polynomial')) &&
+               !input.curve.includes('Progress Polynomial')",
                                                 pickerInput(
                                                     inputId = "degree",
                                                     label = "Select Degree of Freedom for Polynomial",
                                                     choices = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-                                                    multiple = FALSE,
-                                                    options = list(`style` = "btn-success")
+                                                    multiple = FALSE
                                                 )
                                             ),
                                             
@@ -404,28 +414,19 @@ ui <- page_navbar(
                                                 inputId = "train",
                                                 label = "Select Training Data",
                                                 choices = c("2014 Outbreak", "2015 Outbreak", "2023 Outbreak"),
-                                                multiple = FALSE,
-                                                options = list(`style` = "btn-success")
-                                            ),
-                                            
-                                            pickerInput(
-                                                inputId = "actual",
-                                                label = "Select Actual Wave(s) Data",
-                                                choices = c("2014 Outbreak", "2015 Outbreak", "2023 Outbreak"),
-                                                multiple = TRUE,
-                                                options = list(`actions-box` = TRUE, `style` = "btn-success")
+                                                multiple = FALSE
                                             )
-                                        )
-                                    ),
+                                            )
+                                        ),
                                     
                                     # Curve fitting results
                                     card(
-                                        card_header("Results"),
+                                        card_header("Fitted Curves"),
                                         card_body(
-                                            plotOutput("ts_output2", height = "600px")
+                                            plotOutput("fitPlot", height = "430px")
                                         )
-                                    ),
-                                )
+                                    )),
+                                uiOutput("dynamicPlots")
                             )
                   )
               ))
@@ -439,7 +440,16 @@ server <- function(input, output) {
     
     # Overview of Dengue Cases in Taiwan - Map Output
     output$tw_map <- renderTmap({
-        tmap_mode("view")
+        
+        req(
+            input$tw_map_variable_year,
+            input$tw_map_variable_epiweek,
+            input$tw_map_age,
+            input$tw_map_gender,
+            input$tw_map_imported,
+            input$tw_map_serotype
+        )
+        
         aggregated  <- dengue_daily_sf %>%
             filter(Onset_Year == input$tw_map_variable_year) %>%
             filter(Onset_Epiweek >= input$tw_map_variable_epiweek[1] &
@@ -449,22 +459,27 @@ server <- function(input, output) {
             aggregated <- aggregated %>%
                 filter(Age_Group == input$tw_map_age)
         }
+        
         if (input$tw_map_gender != "All") {
             aggregated <- aggregated %>%
                 filter(Gender == input$tw_map_gender)
         }
+        
         if (input$tw_map_imported != "All") {
             aggregated <- aggregated %>%
                 filter(Imported_Case == input$tw_map_imported)
         }
+        
         if (input$tw_map_serotype != "All") {
             aggregated <- aggregated %>%
                 filter(Serotype == input$tw_map_serotype)
         }
         
         if (nrow(aggregated) == 0) {
-            return("No dengue cases found. Please select another set of variables.")
+            showNotification("No dengue cases found. Please select another set of variables.", type = "warning")
+            return(NULL)
         }
+        print(aggregated)
         
         dengue_aggregated <- aggregated %>%
             group_by(Gender, Age_Group, Serotype, Imported_Case, Residential_County_City, geometry) %>%
@@ -474,7 +489,8 @@ server <- function(input, output) {
             tm_bubbles(fill = "Residential_County_City",
                        # size = "Count",
                        col = "black",
-                       lwd = 1)
+                       lwd = 1,
+                       popup.vars = c("County" = "Residential_County_City", "Cases" = "Count"))
     })
     
     # Overview of Dengue Cases in Taiwan - Stats
@@ -518,33 +534,45 @@ server <- function(input, output) {
         })
 
   # Bar Chart
-  output$bar_chart <- renderPlot({
+  output$bar_chart <- renderPlotly({
       
-      ggplot(dengue_summary(), aes(x = Onset_Year, y = Count, fill = factor(.data[[input$chart_variable]]))) +
+      bar <- ggplot(dengue_summary(), aes(x = Onset_Year, 
+                                   y = Count, 
+                                   fill = factor(.data[[input$chart_variable]]))) +
           geom_bar(stat = "identity") +
           labs(title = paste("Dengue Cases by", input$chart_variable, "(Bar Chart)"),
                x = "Year",
                y = "Count of Cases",
                fill = input$chart_variable) +
           theme_minimal()
+      
+      ggplotly(bar)
       })
 
   # Line Chart
-  output$line_chart <- renderPlot({
+  output$line_chart <- renderPlotly({
       
-      ggplot(dengue_summary(), aes(x = Onset_Year, y = Count, color = factor(.data[[input$chart_variable]]))) +
+      line <- ggplot(dengue_summary(), aes(x = Onset_Year, 
+                                   y = Count, 
+                                   color = factor(.data[[input$chart_variable]]))) +
           geom_line(size = 1) +
           labs(title = paste("Dengue Cases by", input$chart_variable, "(Line Chart)"),
                x = "Year",
                y = "Count of Cases",
                color = input$chart_variable) +
           theme_minimal() 
+      
+      ggplotly(line)
       })
   
+  ##############
+  # CDA
   # CDA - by Year
   cda_run_test_year <- eventReactive(input$run_cda_year, {
-
+      req(input$cda_test_year, input$cda_variable_year, input$cda_test_type_year)
       grouped_data_year <- dengue_daily_sf %>%
+          filter(Onset_Year >= input$cda_test_year[1],
+                 Onset_Year <= input$cda_test_year[2]) %>% 
           group_by(Onset_Year, !!sym(input$cda_variable_year)) %>%
           summarize(Count = n(), .groups = "drop")
       return(grouped_data_year)
@@ -557,7 +585,7 @@ server <- function(input, output) {
       
       ggbetweenstats( 
           data = grouped_data_year,
-          x = !!sym(input$cda_variable_year), 
+          x = Onset_Year, 
           y = Count, 
           type = input$cda_test_type_year,
           mean.ci = TRUE, 
@@ -569,8 +597,10 @@ server <- function(input, output) {
   
   # CDA - by Epiweek
   cda_run_test_epiweek <- eventReactive(input$run_cda_epiweek, {
-      
+      req(input$cda_variable_epiweek, input$cda_test_type_epiweek)
       grouped_data_epiweek <- dengue_daily_sf %>%
+          filter(Onset_Epiweek >= input$cda_test_epiweek[1],
+                 Onset_Epiweek <= input$cda_test_epiweek[2]) %>% 
           group_by(Onset_Epiweek, !!sym(input$cda_variable_epiweek)) %>%
           summarize(Count = n(), .groups = "drop")
       return(grouped_data_epiweek)
@@ -583,7 +613,7 @@ server <- function(input, output) {
       
       ggbetweenstats( 
           data = grouped_data_epiweek,
-          x = !!sym(input$cda_variable_epiweek), 
+          x = Onset_Epiweek, 
           y = Count, 
           type = input$cda_test_type_epiweek,
           mean.ci = TRUE, 
@@ -595,7 +625,7 @@ server <- function(input, output) {
   
   # CDA - by Counties
   cda_run_test_county <- eventReactive(input$run_cda_county, {
-      
+      req(input$cda_test_county, input$cda_variable_county, input$cda_test_type_county)
       grouped_data_county <- dengue_daily_sf %>%
           group_by(Residential_County_City, !!sym(input$cda_variable_county)) %>%
           summarize(Count = n(), .groups = "drop")
@@ -609,7 +639,7 @@ server <- function(input, output) {
       
       ggbetweenstats( 
           data = grouped_data_county,
-          x = !!sym(input$cda_variable_county), 
+          x = Residential_County_City, 
           y = Count, 
           type = input$cda_test_type_county,
           mean.ci = TRUE, 
@@ -618,7 +648,7 @@ server <- function(input, output) {
       )
   })
   
-  
+  ##############
   # Time Series EDA
   ts_eda <- reactive({
       data <- dengue_daily_outbreak %>% filter(!is.na(Wave))  # Ensure valid Wave data
@@ -674,6 +704,467 @@ server <- function(input, output) {
           theme_minimal() +
           scale_fill_manual(values = selected_palette)
       
+  })
+  
+  
+  ##############
+  # Time Series Analysis
+  # Helper function to read correct dataset
+  get_wave <- function(wave_name) {
+      switch(
+          wave_name,
+          "2014 Outbreak" = wave1,
+          "2015 Outbreak" = wave2,
+          "2023 Outbreak" = wave3
+      )
+  }
+  
+  # week-based ----------------------------------------------------------
+  fitted_model <- reactive({
+      req(input$curve, input$model == "Week-based")
+      data <- get_wave(input$train)
+      
+      if (!"week_index" %in% names(data) ||
+          !"cases" %in% names(data)) {
+          data <- data %>%
+              mutate(Onset_Date = as.Date(Onset_Date)) %>%
+              group_by(week = floor_date(Onset_Date, unit = "week")) %>%
+              summarise(cases = n(), .groups = "drop") %>%
+              mutate(week_index = row_number())
+      }
+      
+      aic_values <- list()
+      residuals_long <- list()
+      rmse_values <- list()
+      
+      all_preds <- purrr::map_dfr(input$curve, function(curve) {
+          model <- switch(
+              curve,
+              "Exponential"       = glm(
+                  log(cases + 1) ~ week_index,
+                  family = gaussian(),
+                  data = data
+              ),
+              "Lognormal"         = glm(
+                  log(cases + 1) ~ week_index,
+                  family = gaussian(),
+                  data = data
+              ),
+              "GAM"               = mgcv::gam(
+                  cases ~ s(week_index),
+                  family = poisson(),
+                  data = data
+              ),
+              "Gamma"             = glm(
+                  cases ~ week_index,
+                  family = Gamma(link = "log"),
+                  data = data
+              ),
+              "Negative Binomial" = MASS::glm.nb(cases ~ week_index, data = data),
+              "Poisson"           = glm(cases ~ week_index, family = poisson(), data = data),
+              "Polynomial"        = glm(
+                  cases ~ poly(week_index, as.numeric(input$degree)),
+                  family = poisson(),
+                  data = data
+              )
+          )
+          
+          preds <- switch(
+              curve,
+              "Exponential"       = exp(predict(model)),
+              "Lognormal"         = exp(predict(model)),
+              "GAM"               = predict(model, type = "response"),
+              "Gamma"             = predict(model, type = "response"),
+              "Negative Binomial" = predict(model, type = "response"),
+              "Poisson"           = predict(model, type = "response"),
+              "Polynomial"        = predict(model, type = "response")
+          )
+          
+          aic_values[[curve]] <<- AIC(model)
+          rmse_values[[curve]] <<- sqrt(mean((data$cases - preds)^2))
+          
+          residuals_long[[curve]] <<- tibble(
+              week_index = data$week_index,
+              residual = residuals(model, type = "response"),
+              model = curve
+          )
+          
+          tibble(
+              week_index = data$week_index,
+              fitted     = preds,
+              model      = curve
+          )
+      })
+      
+      aics <- tibble(Model = names(aic_values),
+                     AIC = unlist(aic_values))
+      residuals_all <- bind_rows(residuals_long)
+      rmses <- tibble(Model = names(rmse_values),
+                      RMSE = unlist(rmse_values))
+      
+      list(
+          data = data,
+          preds = all_preds,
+          aics = aics,
+          residuals = residuals_all,
+          rmses = rmses
+      )
+  })
+  
+  # cumulative week-based ----------------------------------------------------------
+  fitted_model_cumulative <- reactive({
+      req(input$curve, input$model == "Cumulative Week-based")
+      data <- get_wave(input$train)
+      
+      if (!"week_index" %in% names(data) ||
+          !"cases" %in% names(data)) {
+          data <- data %>%
+              mutate(Onset_Date = as.Date(Onset_Date)) %>%
+              group_by(week = floor_date(Onset_Date, unit = "week")) %>%
+              summarise(cases = n(), .groups = "drop") %>%
+              mutate(week_index = row_number())
+      }
+      
+      aic_values <- list()
+      residuals_long <- list()
+      rmse_values <- list()
+      
+      all_preds <- purrr::map_dfr(input$curve, function(curve) {
+          clean_name <- gsub("^Cumulative ", "", curve)
+          
+          model <- switch(
+              clean_name,
+              "Exponential"       = glm(
+                  log(cases + 1) ~ week_index,
+                  family = gaussian(),
+                  data = data
+              ),
+              "Lognormal"         = glm(
+                  log(cases + 1) ~ week_index,
+                  family = gaussian(),
+                  data = data
+              ),
+              "GAM"               = mgcv::gam(
+                  cases ~ s(week_index),
+                  family = poisson(),
+                  data = data
+              ),
+              "Gamma"             = glm(
+                  cases ~ week_index,
+                  family = Gamma(link = "log"),
+                  data = data
+              ),
+              "Negative Binomial" = MASS::glm.nb(cases ~ week_index, data = data),
+              "Poisson"           = glm(cases ~ week_index, family = poisson(), data = data),
+              "Polynomial"        = glm(
+                  cases ~ poly(week_index, as.numeric(input$degree)),
+                  family = poisson(),
+                  data = data
+              )
+          )
+          
+          preds <- switch(
+              clean_name,
+              "Exponential"       = exp(predict(model)),
+              "Lognormal"         = exp(predict(model)),
+              "GAM"               = predict(model, type = "response"),
+              "Gamma"             = predict(model, type = "response"),
+              "Negative Binomial" = predict(model, type = "response"),
+              "Poisson"           = predict(model, type = "response"),
+              "Polynomial"        = predict(model, type = "response")
+          )
+          
+          cumulative_preds <- cumsum(preds)
+          
+          aic_values[[curve]] <<- AIC(model)
+          rmse_values[[curve]] <<- sqrt(mean((
+              cumsum(data$cases) - cumulative_preds
+          )^2))
+          
+          residuals_long[[curve]] <<- tibble(
+              week_index = data$week_index,
+              residual = residuals(model, type = "response"),
+              model = curve
+          )
+          
+          tibble(
+              week_index = data$week_index,
+              fitted     = cumsum(preds),
+              model      = curve
+          )
+      })
+      
+      data <- data %>% mutate(cases = cumsum(cases))
+      aics <- tibble(Model = names(aic_values),
+                     AIC = unlist(aic_values))
+      residuals_all <- bind_rows(residuals_long)
+      rmses <- tibble(Model = names(rmse_values),
+                      RMSE = unlist(rmse_values))
+      
+      list(
+          data = data,
+          preds = all_preds,
+          aics = aics,
+          residuals = residuals_all,
+          rmses = rmses
+      )
+  })
+  
+  
+  # plotting curve + AIC + residuals for week-based and cumulative week-based
+  output$aicPlot <- renderPlot({
+      req("AIC" %in% input$metric)
+      if (input$model == "Week-based") {
+          data <- fitted_model()$aics
+      } else {
+          data <- fitted_model_cumulative()$aics
+      }
+      
+      ggplot(data, aes(
+          x = reorder(Model, AIC),
+          y = AIC,
+          fill = Model
+      )) +
+          geom_col() +
+          geom_text(aes(label = round(AIC, 1)), vjust = -0.5, size = 4) +
+          scale_fill_brewer(palette = "Pastel1") +
+          theme_minimal() +
+          labs(title = "AIC Values by Model", x = "Model", y = "AIC") +
+          theme(legend.position = "none")
+  })
+  
+  output$rmsePlot <- renderPlot({
+      req("RMSE" %in% input$metric)
+      if (input$model == "Week-based") {
+          data <- fitted_model()$rmses
+      } else {
+          data <- fitted_model_cumulative()$rmses
+      }
+      
+      ggplot(data, aes(
+          x = reorder(Model, RMSE),
+          y = RMSE,
+          fill = Model
+      )) +
+          geom_col() +
+          geom_text(aes(label = round(RMSE, 2)), vjust = -0.5, size = 4) +
+          scale_fill_brewer(palette = "Pastel1") +
+          theme_minimal() +
+          labs(title = "RMSE Comparison Across Models", x = "Model", y = "RMSE") +
+          theme(legend.position = "none")
+  })
+  
+  
+  output$fitPlot <- renderPlot({
+      if (input$model == "Cumulative Week-based") {
+          fit <- fitted_model_cumulative()
+          title_text <- "Cumulative Fitted Curves"
+      } else {
+          fit <- fitted_model()
+          title_text <- "Fitted Curves"
+      }
+      
+      ggplot(fit$data, aes(x = week_index)) +
+          geom_point(
+              aes(y = cases),
+              color = "black",
+              alpha = 0.6,
+              size = 2
+          ) +
+          geom_line(data = fit$preds,
+                    aes(y = fitted, color = model),
+                    size = 1) +
+          labs(
+              title = title_text,
+              x = "Week Index",
+              y = "Number of Cases",
+              color = "Model"
+          ) +
+          theme_minimal()
+  })
+  
+  #residuals plot
+  output$residualPlot <- renderPlot({
+      req("Residuals" %in% input$metric)
+      fit <- if (input$model == "Week-based") {
+          fitted_model()
+      } else {
+          fitted_model_cumulative()
+      }
+      
+      ggplot(fit$residuals, aes(x = week_index, y = residual, color = model)) +
+          geom_hline(
+              yintercept = 0,
+              linetype = "dashed",
+              color = "gray50"
+          ) +
+          geom_line(size = 0.7) +
+          facet_wrap(~ model, scales = "free_y") +
+          labs(title = "Residuals for All Models", x = "Week Index", y = "Residuals") +
+          theme_minimal()
+  })
+  
+  # progress-based -----------------------------
+  #------------------ PROGRESS MODEL REACTIVE --------------------------
+  fitted_model_progress <- reactive({
+      req(input$model == "Progress-based",
+          input$curve,
+          input$train,
+          input$predict)
+      
+      if (input$train == input$predict) {
+          return(NULL)  # don't proceed if training == prediction
+      }
+      
+      train_data <- get_wave(input$train) %>%
+          arrange(week_index) %>%
+          mutate(cum_cases = cumsum(cases),
+                 progress = cum_cases / max(cum_cases))
+      
+      predict_data <- get_wave(input$predict) %>%
+          arrange(week_index) %>%
+          mutate(cum_cases = cumsum(cases),
+                 progress = cum_cases / max(cum_cases))
+      
+      preds_all <- map_dfr(input$curve, function(curve) {
+          clean_name <- gsub("^Progress ", "", curve)
+          
+          model <- switch(
+              clean_name,
+              "Exponential" = glm(
+                  log(cases + 1) ~ progress,
+                  family = gaussian(),
+                  data = train_data
+              ),
+              "GAM"         = gam(
+                  cases ~ s(progress),
+                  family = poisson(),
+                  data = train_data
+              ),
+              "Negative Binomial" = glm.nb(cases ~ poly(progress, 4), data = train_data),
+              "Poisson"     = glm(
+                  cases ~ poly(progress, 4),
+                  family = poisson(),
+                  data = train_data
+              ),
+              "Polynomial"  = glm(
+                  cases ~ poly(progress, 4),
+                  family = poisson(),
+                  data = train_data
+              )
+          )
+          
+          predictions <- switch(
+              clean_name,
+              "Exponential" = exp(predict(model, newdata = predict_data)) - 1,
+              "GAM"         = predict(model, newdata = predict_data, type = "response"),
+              "Negative Binomial" = predict(model, newdata = predict_data, type = "response"),
+              "Poisson"     = predict(model, newdata = predict_data, type = "response"),
+              "Polynomial"  = predict(model, newdata = predict_data, type = "response")
+          )
+          
+          tibble(
+              progress = predict_data$progress,
+              fitted = predictions,
+              model = rep(curve, length(predictions)),
+              week_index = predict_data$week_index
+          )
+      })
+      
+      list(data = get_wave(input$predict), preds = preds_all)
+  })
+  
+  
+  
+  output$fitPlot <- renderPlot({
+      if (input$model == "Week-based") {
+          fit <- fitted_model()
+          title_text <- "Fitted Curves (Week-based)"
+          y_data <- fit$data$cases
+          x_var <- "week_index"
+      } else if (input$model == "Cumulative Week-based") {
+          fit <- fitted_model_cumulative()
+          title_text <- "Fitted Curves (Cumulative)"
+          y_data <- fit$data$cases
+          x_var <- "week_index"
+      } else if (input$model == "Progress-based") {
+          validate(
+              need(
+                  input$train != input$predict,
+                  "Training and Prediction Outbreak must be different."
+              )
+          )
+          
+          fit <- fitted_model_progress()
+          req(fit)  # In case NULL is returned
+          
+          title_text <- paste(
+              "Fitted Curves (Progress-based)\nTrained on",
+              input$train,
+              "→ Predicted on",
+              input$predict
+          )
+          y_data <- fit$data$cases
+          x_var <- "progress"
+      }
+      
+      ggplot() +
+          geom_point(
+              data = fit$data,
+              aes_string(x = x_var, y = "cases"),
+              color = "black",
+              alpha = 0.6,
+              size = 2
+          ) +
+          geom_line(
+              data = fit$preds,
+              aes_string(x = x_var, y = "fitted", color = "model"),
+              linewidth = 1
+          ) +
+          labs(
+              title = title_text,
+              x = ifelse(
+                  input$model == "Progress-based",
+                  "Progress (0 to 1)",
+                  "Week Index"
+              ),
+              y = "Number of Cases",
+              color = "Model"
+          ) +
+          theme_minimal()
+  })
+  output$dynamicPlots <- renderUI({
+      plots <- list()
+      
+      # Check input$metric and render in the order the user selected
+      if (!is.null(input$metric)) {
+          if ("AIC" %in% input$metric) {
+              plots[[length(plots) + 1]] <- card(
+                  card_header("AIC Plot"),
+                  card_body(
+                      plotOutput("aicPlot", height = "300px")
+                  )
+              )
+          }
+          if ("Residuals" %in% input$metric) {
+              plots[[length(plots) + 1]] <- card(
+                  card_header("Residual Plot"),
+                  card_body(
+                      plotOutput("residualPlot", height = "300px")
+                  )
+              )
+          }
+          if ("RMSE" %in% input$metric) {
+              plots[[length(plots) + 1]] <- card(
+                  card_header("RMSE Plot"),
+                  card_body(
+                      plotOutput("rmsePlot", height = "300px")
+                  )
+              )
+          }
+      }
+      
+      layout_column_wrap(width = 1, fill = TRUE, !!!plots)
   })
   
 }
